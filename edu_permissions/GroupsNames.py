@@ -1,0 +1,7 @@
+GROUP_OF_TEACHERS = 'group_of_teachers'
+GROUP_OF_STUDENTS = 'group_of_students'
+GROUP_OF_ADMINS = 'group_of_admins'
+GROUP_OF_HEAD_OF_DEPARTMENT = 'group_of_head_of_department'
+GROUP_OF_CLASS_INCHARGE = 'group_of_class_incharge'
+GROUP_OF_INSTETUDE_HEAD = 'group_of_instetude_head'
+GROUP_OF_INSTETUDE_SUB_HEADS ='group_of_instetude_sub_heads'

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}{{edu}} | {{course}}{% endblock title %}
+{% block contx %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 p-0">
+            <nav aria-label="breadcrumb ">
+                <ol class="breadcrumb bg-snd  ">
+                    <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'eduD' edu.pk_key %}" >EDU </a></li>
+                    <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'courseD' edu.pk_key course.name course.pk %}">Course</a></li>
+                    <li class="breadcrumb-item "><a class="text-danger disable">Semister</a></li>
+                    <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'createBooks' edu.pk_key %}">Add Books</a></li>
+                </ol>
+              </nav>
+        </div>
+        <div class="col-md-8 txt-clr p-0 bg-fst">
+            <div class=" p-3">
+                <h4>Add semister to {{course}}</h4>
+                <hr class="main-bg">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="fieldWrapper">
+                                {{ form.name.errors }}
+                                <label for="{{ form.name.id_for_label }}" class="form-label">Name</label><br>
+                                <input type="text" class="form-control" id=" name "  name="name"  >
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="fieldWrapper">
+                                {{ form.duration.errors }}
+                                <label for="{{ form.duration.id_for_label }}" class="form-label">Duration</label><br>
+                                <input type="text" class="form-control" id=" duration "  name="duration"  >
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="fieldWrapper">
+                                {{ form.fee.errors }}
+                                <label for="{{ form.fee.id_for_label }}" class="form-label">Fee</label><br>
+                                <input type="text" class="form-control" id=" fee "  name="fee"  >
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="fieldWrapper">
+                                {{ form.description.errors }}
+                                <label for="{{ form.description.id_for_label }}" class="form-label">Description</label><br>
+                                <textarea  class="form-control" id=" description " rows=7 name="description"  ></textarea >
+                            </div>
+                        </div>
+                        <div class="col-12"><br>
+                            <h6>Books</h6>
+                            <div class="fieldWrapper ">
+                                {{ form.books.errors }}
+                                {% for book in form.books.field.queryset %}
+                                {% if course in book.course.all  %}
+                                <div class="form-check  form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="books" id="book_{{ book.id }}" value="{{ book.id }}" {% if book in form.instance.books.all %}checked{% endif %}>
+                                    <label class="form-check-label" for="book_{{ book.id }}">{{ book }}</label><br>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                              </div>                  
+                        </div>
+            
+                        <!--main-row-end-->
+                    </div>
+            
+            
+                    <button class="w-100 mt-4 btn btn-danger btn-lg" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        <!--second div right side-->
+        <div class="col-md-4 p-1 ">
+            {% if course_list %}
+            <div class="cs-card">
+                <h5>Other Cources:</h5><br>
+                {% for courseName in course_list %}
+                <h6><a href="{% url 'courseD' edu.pk_key courseName.name courseName.pk %}" class="text-light">{{courseName.name}}</a></h6>
+                <hr class="main-bg">
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <!--main-row-->
+    </div>
+</div>
+<br>
+{% endblock contx %}

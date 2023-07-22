@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Blogs{% endblock title %}
+{% block contx %}
+.
+<div class="row">
+    <div class="col-md-4">
+        {% for blog in blogs_list %}
+        <div class="cs-card mb-4">
+            <div class="bg-snd p-2">
+                {% if blog.featured_image %}
+                <img src="{{MEDIA_URL}}{{ blogP.featured_image.url }}" class="card-img-top" alt="Featured Image">
+                {% endif %}
+                <h6>{{blog.title}}</h6>
+                <p>Author: {{blog.author}}</p>
+                <p>Post at: {{blog.publication_date.date}}
+                    <a href="{% url 'BlogPD' blog.uuid %}" class="btn btn-danger btn-sm float-right">View</a>
+                
+                </p>
+                <hr class="bg-fst">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock contx %}

@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block title %}{{edu}} | {{lecture.title}} {% endblock title %}
+{% block contx %}
+<div class="container txt-clr">
+    <h1>Leature</h1>
+    <div class="row cs-card ">
+        <div class="col-12 bg-snd pt-2">
+        <h4>{{lecture.title}}</h4>
+        <hr class="main-bg">
+      </div>
+      <div class="col-md-8 bg-snd card-body ">
+        {% if lecture.video %}
+        <div class="container">
+            <div class="embed-responsive embed-responsive-16by9">
+                <video id="myVideo" controls>
+                    <source src="{{MEDIA_URL}}{{lecture.video.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+          </div>
+        {% endif %}
+        
+      
+
+      </div>
+      <div class="col-md-4 bg-snd card-body">
+        <h5>Notes:</h5>
+        <div class="row p-0">
+          {% for doc in notes %}
+          {% if doc.notes %}
+          <a class="alink w-100" href="{{MEDIA_URL}}{{doc.notes.url}}">
+            <div class="col-12 noteLecture">
+                <h6>
+                  <span class="float-left">{{doc.title}}</span>
+                  <span class="float-right"><u>&darr;</u></span>
+                </h6>
+             </div>
+            </a>
+             {% endif %}
+          {% endfor %}
+        </div>
+        <a class="txt-clr float-right" href="#addNote">add notes</a><br>
+        <hr class="main-bg">
+      </div>
+      <div class="col-12">
+        <div class="row p-0">
+            <div class="col-md-8 bg-snd card-body  ">
+                <div class="table-responsive">
+                    <table class="table table-striped cs-card txt-clr">
+                        <thead class="">
+                          <tr>
+                              <th>Total</th>
+                              <th>Absent</th>
+                              <th>Present</th>
+                              <th>Leave</th>
+                              <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                                  <tr>
+                                    <td>{{ cls.studentsOfclass.count }}</td>
+                                    <td>{{absent_students}}</td>
+                                    <td>{{present_students}}</td>
+                                    <td>{{leave_students}}</td>
+                                    <td>
+                                      {% if lecture.over %}
+                                      <button class="btn btn-info btn-sm" Disabled >Attendenc</button>
+                                      {% else %}
+                                      <a href="{% url 'atSheet' edu.pk_key lecture.pk   %} ">
+                                        <button class="btn btn-info btn-sm" >Take Attendenc</button>
+                                      </a>
+                                      {% endif %}
+                                        
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>  
+            </div>
+            <div class="col-md-4 bg-snd">
+                <div class="container mt-4" id="addNote">
+                  
+                    <div id="accordion">
+                        <div class="bg-snd">
+                            <div class="card-body card-header" id="headingOne">
+                                <h5 class="mb-0 ">
+                                    <button class="btn btn-success w-100 " data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                      Upload Notes 
+                                    </button>
+                                </h5>
+                            </div>
+                
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body card-header">
+                                    <form class="form" action="" method="POST" enctype="multipart/form-data"> 
+                                        {% csrf_token %}
+                                        <div class="fieldWrapper">
+                                            {{ form.title.errors }}
+                                            {{ form.notes.errors }}
+                                            <input type="text" class="form-control mb-1" id="title" name="title" placeholder="Title">
+                                            <input type="file" class="form-control-file mb-1" id="notes" name="notes">
+                                        </div>
+                                        <button class="btn btn-success w-100 mt-2" type="submit">Upload</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                
+                  {% comment %} <h5>Notes Uploading</h5>
+                  <form class="form" action="" method="POST" enctype="multipart/form-data"> 
+                    {% csrf_token %}
+                    <div class="fieldWrapper">
+                      {{ form.title.errors }}
+                        {{ form.notes.errors }}
+                        <input type="text" class="form-control mb-1" id="title" name="title" placeholder="Title">
+                        <input type="file" class="form-control-file mb-1" id="notes" name="notes">
+                    </div>
+                    <button class="btn btn-success w-100 mt-2" type="submit">Upload</button>
+                 </form>
+                 {% endcomment %}
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-12 bg-snd card-body">
+        <hr class="main-bg">
+        <a class="text-danger float-left" href="{% url 'classCD' edu.pk_key cls.pk cls.name %}"> &larr; Back</a>
+                  
+      </div>
+    </div>
+    
+  </div>
+
+
+{% endblock contx %}

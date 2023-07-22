@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Write Blogs{% endblock title %}
+{% block fluid_contx %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-9">
+            <form method="post" class="txt-clr" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.errors }}
+                {{ form.media }}
+                {{ form.as_p}}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock fluid_contx %}
+

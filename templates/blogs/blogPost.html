@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block head_files %}
+    <meta name="description" content="{{ blogP.meta_description }}">
+    <meta name="keywords" content="{{ blogP.meta_keywords }}">
+    <meta name="author" content="{{ blogP.meta_author }}">
+    <meta property="og:title" content="{{ blogP.title }}">
+    <meta property="og:description" content="{{ blogP.meta_description }}">
+    {% if blogP.featured_image %}
+    <meta property="og:image" content="{{ blogP.featured_image.url }}">
+    {% endif %}
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.get_full_path }}">
+{% endblock head_files %}
+{% block title %}Blog{% endblock title %}
+{% block fluid_contx %}
+<div class="container txt-clr">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card bg-snd mb-4">
+                {% if blogP.featured_image %}
+                <img src="{{ blogP.featured_image.url }}" class="card-img-top" alt="Featured Image">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title">{{ blogP.title }}</h2>
+                    <hr class="main-bg">
+                    {{ blogP.content|safe }}
+                </div>
+                <div class="card-footer text-muted">
+                    <p>
+                        <span>Author: {{ blogP.author }}</span>
+                        <span class="float-end">Published: {{ blogP.publication_date }}</span>
+                        {% if request.user == blogP.author %}
+                        <a class="txt-clr float-right btn btn-danger btn-sm " href="{% url 'delete_blog_post' blogP.uuid %}">Delete</a><hr>
+                        <a class="txt-clr float-right btn btn-danger btn-sm " href="{% url 'editBlogPost' blogP.uuid %}">Edit</a>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="mb-3 pl-2">
+                    <button class="btn btn-danger me-2" Disable>Views<span class="badge ">{{blogP.views}}</span></button>
+                    <button class="btn btn-primary me-2" type="button">Like <span class="badge ">{{blogP.likes}}</span></button>
+                    <button class="btn btn-secondary me-2" type="button">Share</button>
+                    
+                </div>
+            </div>
+
+            <!-- Comments -->
+            <div class="card mb-4 bg-snd">
+                <div class="card-header">
+                    <h4>Comments</h4>
+                </div>
+                <div class="card-body bg-snd">
+                    <div class="container mt-4">
+                        <h6>Comments</h6>
+                        <ul class="list-group">
+                            {% for comment in comments %}
+                            <li class="list-group-item bg-snd">
+                                <div class="d-flex align-items-center ">
+                                    {% if comment.author_name.genuser.picture %}
+                                    <img class="comment-img me-2 rounded-circle" src="{{ MEDIA_URL }}{{ comment.author_name.genuser.picture.url }}" alt="User Avatar" width="40" height="40">
+                                    {% else %}
+                                    <span class="comment-img me-2 rounded-circle text-center img-spn bg-fst"></span>
+                                    
+                                    {% endif %}
+                                    <span class=" text-light p-2 rounded"><u>{{ comment.author_name }}</u></span>
+                                </div>
+                                <div class="mt-2">
+                                    {{ comment.content | safe }}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="card-header">
+                        <h6>Post Comment</h6>
+                        <form class="form" method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <textarea class="form-control" id="commentContent" name="content" rows="2" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm mb-2 float-right">Post</button>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            {% for blog in blogs_list %}
+            <div class="cs-card mb-4">
+                <div class="bg-snd p-2">
+                    {% if blog.featured_image %}
+                    <img src="{{MEDIA_URL}}{{ blog.featured_image.url }}" class="card-img-top" alt="Featured Image">
+                    {% endif %}
+                    <h6>{{blog.title}}</h6>
+                    <p>Author: {{blog.author}}</p>
+                    <p>Post at: {{blog.publication_date.date}}
+                        <a href="{% url 'BlogPD' blog.uuid %}" class="btn btn-danger btn-sm float-right">View</a>
+                    
+                    </p>
+                    <hr class="bg-fst">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock fluid_contx %}

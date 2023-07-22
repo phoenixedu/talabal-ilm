@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}{{edu}} | Update Course{% endblock title %}
+{% block contx %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 p-0">
+            <nav aria-label="breadcrumb ">
+                <ol class="breadcrumb bg-snd  ">
+                    <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'eduD' course.edu.pk_key %}" >EDU </a></li>
+                    <li class="breadcrumb-item "><a class="text-danger disable">Course {{course.name}} </a></li>
+                </ol>
+              </nav>
+        </div>
+        <div class="col-md-8 txt-clr p-0 bg-fst">
+            <div class=" p-3">
+                <h4>Update {{course.name}}</h4>
+                <hr class="bg-dark">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="fieldWrapper">
+                                {{ form.name.errors }}
+                                <label for="{{ form.name.id_for_label }}" class="form-label">Name</label><br>
+                                <input type="text" class="form-control" id=" name "  name="name"  value="{{course.name}}" >
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="fieldWrapper">
+                                {{ form.duration.errors }}
+                                <label for="{{ form.duration.id_for_label }}" class="form-label">Duration</label><br>
+                                <input type="text" class="form-control" id=" duration "  name="duration" value="{{course.duration}}" >
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="fieldWrapper">
+                                {{ form.totalfee.errors }}
+                                <label for="{{ form.totalfee.id_for_label }}" class="form-label">Total Fee</label><br>
+                                <input type="text" class="form-control" id=" totalfee "  name="totalfee" value="{{course.totalfee}}" >
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="fieldWrapper">
+                                {{ form.totalSimsters.errors }}
+                                <label for="{{ form.totalSimsters.id_for_label }}" class="form-label">Total Semesters</label><br>
+                                <input type="text" class="form-control" id=" totalSimsters "  name="totalSimsters" value="{{course.totalSimsters}}" >
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="fieldWrapper">
+                                {{ form.descripition.errors }}
+                                <label for="{{ form.descripition.id_for_label }}" class="form-label">Descripition</label><br>
+                                <textarea  class="form-control" id=" descripition "  name="descripition" rows="10"  >{{course.descripition}}</textarea >
+                            </div>
+                        </div>
+            
+                        <!--main-row-end-->
+                    </div><br>
+            
+            
+                    <button class="w-100 btn btn-danger btn-lg" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        <!--second div right side-->
+        <div class="col-md-4 p-1 ">
+            {% if course_list %}
+            <div class="cs-card">
+                <h5>Other Cources:</h5><br>
+                {% for courseName in course_list %}
+                <h6><a href="{% url 'courseD' edu.pk_key courseName.name courseName.pk %}" class="text-light">{{courseName.name}}</a></h6>
+                <hr class="main-bg">
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <!--main-row-->
+    </div>
+</div>
+<br>
+{% endblock contx %}

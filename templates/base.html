@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashbord.css' %}">
+    <title>{% block title %}EDU{% endblock title %}</title>
+    {% block head_files %}
+    {% endblock head_files %}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sidebars/">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+
+  <body class="bg-fst">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar sticky-top m-0 navbar-expand-lg navbar-dark bg-snd">
+        <a class="navbar-brand" href="{% url 'home' %}">EDU</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'home' %}">Home</a>
+                </li> 
+              {% if request.user.is_authenticated and register.user == is_superuser %}
+              <li class="nav-item">
+                  <a class="nav-link" href="admin/">Admin</a>
+              </li>
+              {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'genProfile' request.user %}">Dashboard</a>
+                </li>
+                {% if edu %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'eduAdmin' edu.pk_key %}">EDU Admin</a>
+                </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link active">{{request.user}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Sign Out</a>
+                </li>
+                {% else %}
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Sign In</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        
+    </nav>
+
+    <!-- Content -->
+    <div class="container mt-3">
+        {% block contx %}{% endblock contx %}
+    </div>
+    {% block fluid_contx %}{% endblock fluid_contx %}
+    <br>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

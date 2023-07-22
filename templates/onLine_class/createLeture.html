@@ -1,0 +1,68 @@
+{% extends 'eduAdmin.html' %}
+{% block title %}{{edu}} | Leacure Form{% endblock title %}
+{% block adm_area %}
+<div class="container ">
+    <h3>Create Lecture:</h3>
+    <hr class="main-bg">
+    <div class="row">
+        <div class="col-md-8">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="row ">
+                    <div class="col-12">
+                      <div class="fieldWrapper">
+                          <label for="cls" class="form-label">Class</label><br>
+                          <input class="form-control" id="cls" name="cls" value="{{cls}}" readonly>  
+                      </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.teacher.errors }}
+                            <label for="{{ form.teacher.id_for_label }}" class="form-label">teacher</label><br>
+                            <select class="form-control" id="teacher" name="teacher">
+                                 {% for teacher in form.teacher.field.choices %}
+                                   <option value="{{ teacher.0 }}">{{ teacher.1 }}</option>
+                                 {% endfor %} 
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.title.errors }}
+                            <label for="{{ form.title.id_for_label }}" class="form-label">Title</label><br>
+                            <input class="form-control" id="title" name="title">  
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="fieldWrapper">
+                            
+                            <label for="id_date_1">Select a Time:</label>
+                            <input  class="form-control" type="time" id="id_date_1" name="date_1" required>
+                            <label for="id_date_0">Select a Date:</label>
+                            <input  class="form-control" type="date" id="id_date_0" name="date_0" required>
+                        
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="fieldWrapper">
+                            {{ form.video.errors }}
+                            <label for="{{ form.video.id_for_label }}" class="form-label">video</label><br>
+                            <select class="form-control" id="video" name="video">
+                                <option value="">None</option>
+                                 {% for video in form.video.field.choices %}
+                                 <option value="{{ video.0 }}">{{ video.1 }}</option>
+                                 {% endfor %} 
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                </div>  
+                <button class="w-100 mt-4 btn btn-danger btn-lg" type="submit">Submit</button>
+            </form>
+            <hr class="main-bg">
+            <a class="main-txt" href="{% url 'classCList' edu.pk_key %}">&larr; back</a>
+        </div>
+    </div>
+</div>
+{% endblock adm_area %}

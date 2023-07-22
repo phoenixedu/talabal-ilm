@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block contx %}
+<div class="txt-clr cs-card">
+    <h1>Add Students List</h1>
+    <p>Institution: {{edu}}</p>
+    <p>Class: {{cls}}</p>
+
+    <div class="table-responsive  bg-snd">
+        <table class="table txt-clr">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Gardiner</th>
+                    <th>Phone #</th>
+                    <th>Age</th>
+                    <th>Class</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in addListOfStudent %}
+                    {% if student not in cls.studentsOfclass.all and not student.equiet %}
+                    <tr>
+                        <td>
+                            {% if student.user.get_full_name %}
+                            {{student.user.get_full_name}}
+                            {% else %}
+                            {{ student }}
+                            {% endif %}
+                        </td>
+                        <td>{{ student.dataForm.nameOfGardiner }}</td>
+                        <td>{{ student.user.genuser.PhoneNumber }}</td>
+                        <td>{{ student.user.genuser.age }}</td>
+                        <td>{{ student.dataForm.educlass }}</td>
+                        <td>
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                    <input type="hidden" name="student_id" value="{{ student.id }}">
+                                    <input type="hidden" name="action" value="add"> 
+                                    <button class="btn btn-success btn-sm" type="submit">Add</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No students found.</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="6">
+                        <a class="text-danger float-left" href="{% url 'classCD' edu.pk_key cls.pk cls.name %}"> &larr; Back</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock contx %}

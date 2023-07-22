@@ -1,0 +1,128 @@
+:root{
+    --bg-color:#081b29;
+    --second-bg-color:#112e42;
+    --text-color:#ededed;
+    --main-color:#00abf0;
+}
+html{
+    /* font-size: 62.5%; */
+    overflow-x:hidden ;
+}
+body{
+    background-color: var(--bg-color) !important ;
+}
+
+.alink{
+    color: var(--text-color);
+}
+.alink:hover{
+    color: var(--main-color);
+}
+.bg-fst{
+    background-color:var(--bg-color) !important;
+}
+.tx-bg{
+    background-color: var(--text-color);
+}
+.bg-snd{
+    background-color:var(--second-bg-color) !important;
+}
+.txt-clr{
+    color: var(--text-color) !important;
+}
+.main-bg{
+    background-color:var(--main-color) !important;
+}
+.main-txt{
+    color:var(--main-color) !important;
+}
+.cs-card{
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+    border: 2px solid var(--main-color) !important;
+    border-radius: 5px !important;
+    min-height: 45px;
+    padding: 4px;
+}
+
+.dp_sink{
+    height: 30px;
+    width: 30px;
+    background: #000;
+    
+}
+.resend-btn{
+    background:transparent;
+    border: transparent;
+}
+.resend-btn:hover{
+    background:transparent;
+    border: transparent;
+}
+.edu-img{
+    margin-top: 0px;
+    height: 60vh;
+    width: 100%;
+}
+.edu-img img{
+    height: 100%;
+    width: 100%;
+}
+.img-fm{
+    height: 10%;
+    width: 100%;
+}
+.bl_card{
+    font-size: large;
+    border: 0px transparent !important;
+}
+.alink{
+    padding-bottom:12px;
+    background-color:var(--bg-color);
+    border-bottom: 2px solid var(--main-color);
+}
+
+.alink:hover{
+    color: var(--main-color);
+    padding:0 5px 12px 5px;
+    border-bottom: 2px solid var(--main-color);
+}
+.img-spn{
+    height: 40px;
+    width: 40px;
+}
+.eduP_img{
+    width: 100%;
+    height: 300px;
+    border-radius: 0px;
+}
+/* 
+.dot::before,
+.dot::after {
+    content: "";
+    display: block;
+    width: 2px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ededed;
+  }
+  
+.dot::before {
+  margin-bottom: 6px;
+}
+  .dot::after {
+    margin-top: 6px;
+  } */
+/* Video */
+/* Style for the video container */
+/* Style for the video container */
+#myVideo {
+    width: 100%; /* Set the width of the video */
+    max-width: 640px; /* Set the maximum width */
+    display: block; /* Display the video as a block element */
+    margin: 0 auto; /* Center the video horizontally */
+  }
+  
+  /* Hide the default video controls */
+ 
+  

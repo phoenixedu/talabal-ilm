@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Student List | {{edu.name}} {% endblock title %}
+{% block contx %}
+<div class="txt-clr cs-card">
+    <h1>List of Students</h1>
+    <p>Institution: {{edu.name}}</p>
+    <p>Total #{{countstudent}}</p>
+
+    <div class="table-responsive  bg-snd">
+        <table class="table txt-clr">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone#</th>
+                    <th>Eamil</th>
+                    <th>
+                        <span class="float-right">Action</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stuent in allstudents.all %}
+                    <tr>
+                        <td>
+                            {% if stuent.user.get_full_name %}
+                            {{stuent.user.get_full_name}}
+                            {% else %}
+                            {{ stuent }}
+                            {% endif %}
+                        </td>
+                        <td>{{ stuent.user.genuser.PhoneNumber }}</td>
+                        <td>{{ stuent.user.genuser.email }}</td>
+                        <td>
+                            <a class="btn btn-success btn-sm float-right" href="{% url 'eduStudentP' edu.pk_key stuent.eduID %}"><span>View</span></a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No Student found.</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="6">
+                        <a class="text-danger float-left" href="{% url 'eduAdmin' edu.pk_key  %}"> &larr; Back</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock contx %}

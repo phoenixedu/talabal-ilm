@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Sign In{% endblock title %}
+
+
+{% block fluid_contx %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 p-5">
+            <div class="form-signin  card-body txt-clr bg-snd">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+                <div class="form-floating">
+                    <div class="fieldWrapper">
+                    {{ form.username.errors }}
+                    <label for="{{ form.username.id_for_label }}" class="form-label">Username</label><br>
+                    <input type="text" class="form-control" id=" username "  name="username"  >
+                </div>
+                </div>
+
+                <div class="form-floating">
+                    <div class="fieldWrapper">
+                    {{ form.password.errors }}
+                    <label for="{{ form.password.id_for_label }}" class="form-label">Password</label><br>
+                    <input type="password" class="form-control" id=" password "  name="password"  >
+                </div>
+                </div>
+            
+                <div class="checkbox mb-3">
+                    <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>
+                <button class="w-100 btn btn-lg main-bg" type="submit">Sign in</button>
+                <p class="mt-5 mb-3 text-muted">Don't have any account, <a  class="main-txt" href="{% url 'register' %}">Register Now</a>.</p> 
+            </form>
+            </div>
+        </div>
+        
+        <div class="col-md-6 form-signin  card-body txt-clr ">
+         <!--second col-->
+        </div>
+    </div>
+</div>
+{% endblock fluid_contx %}

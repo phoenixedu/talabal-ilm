@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}{{course.name}} | {{edu.name}}{% endblock title %}
+{% block contx %}
+
+<div class="container  ">
+    <div class="row">
+        <div class="col-12 p-0">
+            <nav aria-label="breadcrumb ">
+                <ol class="breadcrumb bg-snd  ">
+                    <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'eduD' edu.pk_key %}" >EDU </a></li>
+                    <li class="breadcrumb-item "><a class="text-danger disable">Course </a></li>
+                    <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'courseUpdate' edu.pk_key course.name course.pk %}" >Update {{course.name}} </a></li>
+                </ol>
+              </nav>
+        </div>
+        <div class="col-md-8 p-0 cs-card">
+            <div class="p-4"><h1>{{course.name}}</h1>
+                <h6>Duration: {{course.duration}}</h6>
+                {{course.descripition|linebreaksbr|safe}}
+                <p><b>Total Fee: {{course.totalfee}} </b></p>
+            </div>
+            <div class="col-12 p-2 pl-4 bg-danger">
+                <h4>
+                    <span class="text-left ">Simsters:</span>
+                    {% if request.user == edu.OwnerOfX and not course.smFull %}
+                    <span class="float-right">
+                        <a class="text-light "  href="{% url 'createsemister' edu.pk_key course.name course.pk %}">&#x002B;</a>
+                    </span>
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="col-12 p-2"> 
+                <div class="row">       
+                    {% for semister in semisters %}
+                    <div class="col-12  pl-3 ">
+                        <div class=" mb-3 p-2 bg-snd" >
+                            <h3>{{semister.name}}</h3>
+                            <h6>Duration : {{semister.duration}}</h6>
+                            <hr class="main-bg">
+                            {{semister.description|linebreaksbr|safe}}
+                            <hr class="main-bg">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6><a>Fee: {{semister.fee}}</a></h6>
+                                    {% if semister.books.all %}
+                                    <h6>books:</h6>
+                                    <ul>
+                                        {% for book in semister.books.all %}
+                                        <li>{{book.name}} ( {{book.author}} )</li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                                {% if request.user == edu.OwnerOfX %}
+                                <div class="col-md-6 text-right d-flex flex-column justify-content-end ">
+                                    <div >
+                                        <h6><a class="text-danger" href="{% url 'semisterUpdate' edu.pk_key course.name semister.pk %}">Update</a></h6>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!--left-col-8-end-->
+        </div>
+        <!--second div right side-->
+        <div class="col-md-4 pt-4 ">
+            {% if course_list %}
+            <div class="cs-card card-body">
+                <h5>Other Cources:</h5><br>
+                {% for courseName in course_list %}
+                <h6><a href="{% url 'courseD' edu.pk_key courseName.name courseName.pk %}" class="text-light">{{courseName.name}}</a></h6>
+                <hr class="main-bg">
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <!--main-row-->
+    </div>
+</div>
+<br>
+{% endblock contx %}

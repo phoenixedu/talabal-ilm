@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %} {{edu.name}} | Faculty {% endblock title %}
+{% block contx %}
+<div class="row">
+    <div class="col-md-8 p-2">
+        <div class="cs-card p-1">
+            <div class="bg-snd p-2">
+                <h3>{{blog.title}}</h3>
+                <hr class="bg-fst">
+                {{blog.content|safe}}<br>
+                <hr class="bg-fst">
+                {% if request.user == faculty.user and not faculty.ex_Faculty %}
+                <a href="{% url 'defaultPost' blog.pk blog.key %}"  target="_blank"  ><button class="btn btn-danger  mb-1">Update</button></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4  p-2">
+        <div class="cs-card p-1">
+            <div class="bg-snd p-2">
+                {% if faculty.user.genuser.picture %}
+                <img class="eduP_img" src="{{MEDIA_URL}}{{faculty.user.genuser.picture.url}}" >
+                {% endif %}
+                <hr class="main-bg">
+                <h6>
+                    <span class="float-left">Name</span>
+                    <span class="float-right">{{faculty.user.get_full_name}}</span>
+                </h6><br>
+                <hr class="bg-fst">
+                <p>
+                    <span class="float-left">Phone#</span>
+                    <span class="float-right">{{faculty.user.genuser.PhoneNumber}}</span>
+                </p><br>
+                <br>
+                <p>
+                    <span class="float-left">Eamil</span>
+                    <span class="float-right">{{faculty.user.genuser.email}}</span>
+                </p>
+                <br>
+                <p>
+                    <span class="float-left">Date Of Joining</span>
+                    <span class="float-right">{{faculty.joinedAt}}</span>
+                </p>
+                <br>
+            </div>
+            <div class="bg-snd mt-2 p-2">
+                <h6></h6>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock contx %}

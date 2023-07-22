@@ -1,0 +1,77 @@
+{% extends "dboard.html" %}
+{% block title %}User Setting{% endblock title %}
+
+{% block dashRoom %}
+
+<div class="card-body txt-clr bg-fst">
+    <h1>Settings:</h1>
+    <hr class="main-bg">
+    <div class="row">
+        <div class="col-md-6 p-2 ">
+            <div class="txt-clr cs-card "> 
+                <span>Email : {{genuser.email}}</span>
+                <span class="float-right">
+                    {% if genuser.emailConformation is False %}
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="sendMl" value="mailsend">
+                        <button class="btn btn-danger float-right btn-sm txt-clr" type="submit">Verify</button>
+                    </form>
+                    {% else %}
+                    <button class="btn btn-danger btn-sm txt-clr " disabled>Verified</button>
+                    {% endif %}
+                </span>
+            </div>
+            
+        </div>
+        <div class="col-md-6 p-2">
+            <div class="txt-clr cs-card"> 
+                <span>Phone # : {{genuser.PhoneNumber}}</span>
+                <span class="float-right">
+                    {% if genuser.PhoneNumberConformation is False %}
+                    <a href="#" class="btn btn-danger btn-sm txt-clr disabled" >Verify</a>
+                    {% else %}
+                    <button class="btn btn-danger btn-sm txt-clr " disabled>Verified</button>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="col-md-6 p-2">
+            <p class="txt-clr cs-card">
+                <span>Change Password</span>
+                <span class="float-right">
+                    <a href="{% url 'pwreset' genuser %}"><button class="btn btn-danger btn-sm txt-clr ">Change Now</button></a>
+                </span>
+            </p>
+        </div>
+        
+    {% comment %} <div class="col-12 cs-card">
+        <div class="">
+            <span class="float-left">
+                <h5>Conform Email:</h5>
+            </span>
+            <span class="float-right">
+                <p class="float-right">Email: {{genuser.email}} </p>
+            </span>
+        </div><br>
+        <hr class="bg-dark">
+        <form class="text-center form">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <label for="verification_code" class="form-label">
+                        Verify your email by entering the code we sent you via email for account confirmation and security.
+                        </label>
+                    <input type="text" id="verification_code" class="form-control" placeholder="Enter Verification Code">
+                    <button class="btn btn-danger btn-sm m-2">Submit</button><br>
+                    <label for="resendId" class="form-label">Don't recive code!</label>
+                    <input type="hidden" id="resendId"  >
+                    <a class="resend-btn main-txt" href="#">resend</a>
+                </div>
+            </div>
+        </form>
+    </div>  {% endcomment %}
+        <!--RowEnd-->
+    </div>
+</div>
+
+{% endblock dashRoom %}

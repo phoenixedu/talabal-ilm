@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+
+{% block contx %}
+<div class="txt-clr cs-card">
+    <h1>Attendenc Sheet</h1>
+    <p>Edu Institution: {{edu}}</p>
+    <p>Class: {{cls}}</p>
+    <p>Teacher: {{lecture.teacher.user}}</p>
+
+    <div class="table-responsive  bg-snd">
+        
+        <!--as-->
+        <div class="accordion" id="attendanceAccordion">
+            <!-- Absent Students -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="absentStudentsHeader">
+                    <button class="accordion-button btn text-left w-100 main-bg collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#absentStudentsCollapse" aria-expanded="false" aria-controls="absentStudentsCollapse">
+                        Students
+                    </button>
+                </h2>
+                <div id="absentStudentsCollapse" class="accordion-collapse show collapse" aria-labelledby="absentStudentsHeader" data-bs-parent="#attendanceAccordion">
+                    <div class="accordion-body">
+                        <table class="table txt-clr">
+                            <thead>
+                                <tr class="">
+                                    <th>Student Name</th>
+                                    <th>
+                                        <span class="float-right">Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in cls.studentsOfclass.all %}
+                                {% if not present_students and not leave_students and absent_students %}
+                                <tr>
+                                    <td>{{ student.user }}</td>
+                                    <td>
+                                       <div class="float-right">
+                                            <!-- Actions for absent students -->
+                                            <form action="" method="POST" class="d-inline ">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="student_id" value="{{ student.id }}">
+                                                <input type="hidden" name="action" value="present"> 
+                                                <button class="btn btn-success btn-sm " type="submit">Present</button>
+                                            </form>
+                                            <form action="" method="POST" class="d-inline">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="student_id" value="{{ student.id }}">
+                                                <input type="hidden" name="action" value="leave"> 
+                                                <button class="btn btn-success btn-sm" type="submit">Leave</button>
+                                            </form>
+                                       </div>
+                                    </td>
+                                </tr>
+                                
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Present Students -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="presentStudentsHeader">
+                    <button class="accordion-button btn text-left w-100 main-bg  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#presentStudentsCollapse" aria-expanded="false" aria-controls="presentStudentsCollapse">
+                        Present Students
+                    </button>
+                </h2>
+                <div id="presentStudentsCollapse" class="accordion-collapse collapse" aria-labelledby="presentStudentsHeader" data-bs-parent="#attendanceAccordion">
+                    <div class="accordion-body">
+                        <table class="table txt-clr">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>
+                                        <span class="float-right">Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in present_students %}
+                                <tr>
+                                    <td>{{ student.name }}</td>
+                                    <td>
+                                        <div class="float-right">
+                                             <!-- Actions for absent students -->
+                                             <form action="" method="POST" class="d-inline mb-2">
+                                                 {% csrf_token %}
+                                                 <input type="hidden" name="student_id" value="{{ student.id }}">
+                                                 <input type="hidden" name="action" value="absent"> 
+                                                 <button class="btn btn-success btn-sm" type="submit">Absent</button>
+                                             </form>
+                                             <form action="" method="POST" class="d-inline">
+                                                 {% csrf_token %}
+                                                 <input type="hidden" name="student_id" value="{{ student.id }}">
+                                                 <input type="hidden" name="action" value="leave"> 
+                                                 <button class="btn btn-success btn-sm" type="submit">Leave</button>
+                                             </form>
+                                        </div>
+                                     </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Students on Leave -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="leaveStudentsHeader">
+                    <button class="accordion-button btn text-left w-100 main-bg  collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#leaveStudentsCollapse" aria-expanded="false" aria-controls="leaveStudentsCollapse">
+                        Students on Leave
+                    </button>
+                </h2>
+                <div id="leaveStudentsCollapse" class="accordion-collapse collapse" aria-labelledby="leaveStudentsHeader" data-bs-parent="#attendanceAccordion">
+                    <div class="accordion-body">
+                        <table class="table txt-clr">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>
+                                        <span class="float-right">Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in leave_students %}
+                                <tr>
+                                    <td>{{ student.name }}</td>
+                                    <td>
+                                        <div class="float-right">
+                                             <!-- Actions for absent students -->
+                                             <form action="" method="POST" class="d-inline mb-2">
+                                                 {% csrf_token %}
+                                                 <input type="hidden" name="student_id" value="{{ student.id }}">
+                                                 <input type="hidden" name="action" value="present"> 
+                                                 <button class="btn btn-success btn-sm" type="submit">Present</button>
+                                             </form>
+                                             <form action="" method="POST" class="d-inline">
+                                                 {% csrf_token %}
+                                                 <input type="hidden" name="student_id" value="{{ student.id }}">
+                                                 <input type="hidden" name="action" value="absent"> 
+                                                 <button class="btn btn-success btn-sm" type="submit">Absent</button>
+                                             </form>
+                                        </div>
+                                     </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add Bootstrap JS and jQuery scripts -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+        <!--as-->
+        <div class="w-100 p-2 ">
+            <hr class="main-bg">
+            <a class="text-danger float-left pb-2" href="{% url 'electureD' edu.pk_key cls.cls_key lecture.pk lecture.title %}"> &larr; Back</a>
+        </div>
+    </div>
+</div>
+{% endblock contx %}
+<!--<table class="table  txt-clr">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    {% comment %} <th>Gardiner</th>
+                    <th>Phone #</th>
+                    <th>Age</th>
+                    <th>Class</th> {% endcomment %}
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in cls.studentsOfclass.all %}
+                   {{student.student_att.all}}
+                    <tr>
+                        <td>
+                            {% if student.user.get_full_name %}
+                            {{student.user.get_full_name}}
+                            {% else %}
+                            {{ student }}
+                            {% endif %}
+                        </td>
+                        {% comment %} <td>{{ student.dataForm.nameOfGardiner }}</td>
+                        <td>{{ student.user.genuser.PhoneNumber }}</td>
+                        <td>{{ student.user.genuser.age }}</td>
+                        <td>{{ student.dataForm.educlass }}</td> {% endcomment %}
+                        <td>
+                            <form action="" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                    <input type="hidden" name="student_id" value="{{ student.id }}">
+                                    <input type="hidden" name="action" value="present"> 
+                                    <button class="btn btn-success btn-sm" type="submit">Present</button>
+                            </form>
+                            
+                            <form action="" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                    <input type="hidden" name="student_id" value="{{ student.id }}">
+                                    <input type="hidden" name="action" value="leave"> 
+                                    <button class="btn btn-success btn-sm" type="submit">Leave</button>
+                            </form>
+                            <form action="" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                    <input type="hidden" name="student_id" value="{{ student.id }}">
+                                    <input type="hidden" name="action" value="absent"> 
+                                    <button class="btn btn-success btn-sm" type="submit">Absent</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr class="bg-danger">
+                        <td colspan="6">
+                            Present Student:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {% if student.user.get_full_name %}
+                            {{student.user.get_full_name}}
+                            {% else %}
+                            {{ student }}
+                            {% endif %}
+                        </td>
+                        <td>{{ student.dataForm.nameOfGardiner }}</td>
+                        <td>{{ student.user.genuser.PhoneNumber }}</td>
+                        <td>{{ student.user.genuser.age }}</td>
+                        <td>{{ student.dataForm.educlass }}</td>
+                        <td>
+                            <form action="" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                    <input type="hidden" name="student_id" value="{{ student.id }}">
+                                    <input type="hidden" name="action" value="present"> 
+                                    <button class="btn btn-success btn-sm" type="submit">Present</button>
+                            </form>
+                            
+                            <form action="" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                    <input type="hidden" name="student_id" value="{{ student.id }}">
+                                    <input type="hidden" name="action" value="leave"> 
+                                    <button class="btn btn-success btn-sm" type="submit">Leave</button>
+                            </form>
+                            <form action="" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                    <input type="hidden" name="student_id" value="{{ student.id }}">
+                                    <input type="hidden" name="action" value="absent"> 
+                                    <button class="btn btn-success btn-sm" type="submit">Absent</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No students found.</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="6">
+                        <a class="text-danger float-left" href="{% url 'classCD' edu.pk_key cls.pk cls.name %}"> &larr; Back</a>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>-->

@@ -1,0 +1,53 @@
+{% extends 'eduAdmin.html' %}
+{% block title %}{{edu}} | Emoply CV {% endblock title %}
+{% block adm_area %}
+<div class="container">
+    <h3>Job Applications:</h3>
+    <hr class="main-bg">
+    <table class="table bg-snd txt-clr table-striped">
+        <thead class="cs-card">
+            <tr>
+                <th>Full Name</th>
+                <th>Father Name</th>
+                <th>Age</th>
+                <th>District</th>
+                <th>City</th>
+                <th>CV</th>
+                <th>Date of Application</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <form method="POST">
+                {% csrf_token %}
+                {% for object in applications %}
+                {% if object.status == 'Pending' %}
+                <tr>
+                    <td>{{ object.userS.genuser.get_full_name }}</td>
+                    <td>{{ object.userS.genuser.father_name }}</td>
+                    <td>{{ object.userS.genuser.age}}</td>
+                    <td>{{ object.Districe }}</td>
+                    <td>{{ object.city }}</td>
+                    <td>
+                        {% if object.cv %}
+                        <a href="{% url 'view_file' edu.pk_key object.cv.url %}" target="_blank">View</a><br>
+                        {% endif %}
+                    </td>
+                    <td>{{ object.dateOfapplyed.date }}</td>
+                    <td>
+                        <input type="hidden" name="employees_id" value="{{ object.id }}">
+                        <input type="hidden" name="status" value="Approved">
+                        <!-- Use a submit button instead of separate accept/reject buttons -->
+                        <button class="btn btn-success" type="submit">Accept</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8"></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </form> 
+        </tbody>
+    </table>
+</div>
+{% endblock adm_area %}

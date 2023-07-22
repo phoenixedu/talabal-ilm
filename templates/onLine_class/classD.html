@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block title %}{{edu}} | {{ class_of_students.Eclass }} {% endblock title %}
+{% block contx %}
+<div class="container txt-clr">
+    <h1>Class Details</h1>
+    <div class="row cs-card ">
+      <div class="col-md-6 bg-snd card-body ">
+        <h2>{{ class_of_students.Eclass }}</h2>
+        <p><strong>Incharge:</strong> {{ class_of_students.incharge.user.get_full_name }}</p>
+        <p><strong>Number of Students:</strong> {{ class_of_students.studentsOfclass.count }}</p>
+        <p><strong>Create Date:</strong> {{ class_of_students.createDateTime.date }}</p>
+      </div>
+      <div class="col-md-6 bg-snd card-body text-right">
+        <h2>Admin Function</h2>
+        <a class="text-light" href="{% url 'addStudent' edu.pk_key class_of_students.pk class_of_students.name %}">Add Students +</a><br>
+        <a class="text-light" href="{% url 'ElectureForm' edu.pk_key class_of_students.pk class_of_students.name %}">Add Lecture +</a><br>
+        <a class="text-light" href="">Add Video +</a><br>
+      </div>
+    </div>
+    <!--today-Leactures-->
+    {% if leactures %}
+    <div class="row mt-2 mb-2 p-2">
+        <h3>{{lent}} Leactures for ( {{today}} )</h3> 
+        <div class="col-12">
+          <div class="row">
+            {% for i in leactures %}
+            <div class="col-md-4 mb-2">
+              <div class="cs-card">
+                <div class="card-body bg-snd ">
+                  
+                  <p>
+                    <span class="text-left"><b>Title:</b></span>
+                    <span class="text-right">{{i.title}}</span>
+                  </p>
+                  <p>
+                    <span class="text-left"><b>Time:</b></span>
+                    <span class="text-right">{{i.date.time}}</span>
+                  </p>
+                  <p>
+                    <span class="text-left"><b>Teacher:</b></span>
+                    <span class="text-right">{{i.teacher.user}}</span>
+                  </p>
+                  <hr class="main-bg">
+                  <a href="{% url 'electureD' edu.pk_key class_of_students.cls_key i.pk i.title %}"><button class="btn btn-danger btn-sm">Go</button></a>
+                  {% if i.cancel %}
+                  <button class="btn btn-danger btn-sm float-right" Disabled>Cancel</button>
+                  {% elif not i.over %}
+                  <button class="btn btn-danger btn-sm float-right" Disabled>Upcoming</button>
+                  {% else %}
+                  <button class="btn btn-danger btn-sm float-right" Disabled >Taken</button>
+                  {% endif %}
+                </div>
+              </div>
+            </div><br>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-12">
+          <a class="main-txt float-right" href="{% url 'list_Lectures' edu.pk_key class_of_students.cls_key %}">List of all Leactures</a><br>
+          <hr class="main-bg">
+        </div>
+    </div>
+    {% endif %}
+    <!--Student-Table-->
+    <div class="table-responsive">
+      <h3>Students <a href="{% url 'addStudent' edu.pk_key class_of_students.pk class_of_students.name %}">+</a></h3> 
+      <table class="table table-striped bg-snd text-light">
+        <thead>
+          <tr>
+              <th>Student Name</th>
+              <th>Student Phone</th>
+              <th>Gardiner Name</th>
+              <th>Gardiner #</th>
+              <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for student in class_of_students.studentsOfclass.all %}
+            <tr>
+              <td><a class="txt-clr" href="#">{{ student.user.get_full_name }} <span class="main-txt">&#8599;</span></a></td>
+              <td>{{ student.user.genuser.PhoneNumber }}</td>
+              <td>{{ student.dataForm.nameOfGardiner }}</td>
+              <td>{{ student.dataForm.contactOfGardiner }}</td>
+              <td>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                        <input type="hidden" name="student_id" value="{{ student.id }}">
+                        <input type="hidden" name="action" value="remove"> 
+                        <button class="btn btn-success btn-sm" type="submit">Remove</button>
+                </form>
+              </td>
+              
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="2">No students found.</td>
+            </tr>
+          {% endfor %}
+            <tr>
+              <td colspan="5">
+                  <a class="text-danger float-left" href="{% url 'classCList' edu.pk_key %}"> &larr; Back</a>
+                  <a class="text-danger float-right" href="{% url 'addStudent' edu.pk_key class_of_students.pk class_of_students.name %}">add more student &#8594</a>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+
+
+{% endblock contx %}

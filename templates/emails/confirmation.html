@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="https://www.w3.org/1999/xhtml/">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Confirmation</title>
+</head>
+<body style="background-color:#081b29;color:#ededed !important; padding:5px;">
+    <div style="background-color:#081b29; color:#ededed;">
+        <div style="padding:12px 8px; border:2px solid #00abf0;">
+            <h1>Email Confirmation</h1>
+            <hr style="background-color:#00abf0;">
+            <p>Dear {{ user.username }},</p>
+            <p>Thank you for registering with our website. Please click the link below to confirm your email address:</p>
+            <p>
+                <a href="{{ confirmation_link }}">
+                <button style="min-width:100px; min-height:35px; background-color:#00abf0; border-radius:10px; border:#00abf0; color:#ededed; padding:5px 8px;">
+                    Press to Conform 
+                </button>
+                </a><br>
+                <a href="{{ confirmation_link }}">{{ confirmation_link }}</a><br>
+            </p>
+            <p>If you did not request this email, please ignore it. Your account will not be activated.</p>
+            <p>Best regards,</p>
+            <p>Your Website Team</p>
+        </div>
+    </div>
+</body>
+</html>

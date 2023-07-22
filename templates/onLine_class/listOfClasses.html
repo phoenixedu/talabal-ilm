@@ -1,0 +1,45 @@
+{% extends 'eduAdmin.html' %}
+{% block title %}{{edu}} | List of Classes {% endblock title %}
+{% block adm_area %}
+<div class="container  ">
+    <h1>Class of Students <a class="text-light" href="{% url 'classCForm' edu.pk_key %}">+</a></h1>
+    <div class="table-responsive">
+      <table class="table table-striped bg-snd txt-clr">
+        <thead class="cs-card">
+          <tr>
+            <th>Name</th>
+              <th>Class</th>
+              <th>Incharge</th>
+              <th>Students</th>
+              <th>Create Date</th>
+              <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+              {% for class in class_of_students %}
+                  {% if class %}
+                  <tr>
+                    <td>{{ class.name }}</td>
+                    <td>{{ class.Eclass }}</td>
+                    <td>{{ class.incharge.user.get_full_name }}</td>
+                    <td>{{ class.studentsOfclass.count }} _ <a class="text-success" href="#">add</a></td>
+                    <td>{{ class.createDateTime.date }}</td>
+                    <td>
+                        <a href="{% url 'classCD' edu.pk_key class.pk class.name %}">
+                        <button class="btn btn-info btn-sm" >View</button>
+                        </a>
+                    </td>
+                </tr>
+                  {% endif %}
+              {% empty %}
+              <tr>
+                  <td colspan="6">No classes found.</td>
+              </tr>
+              {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!--container end-->
+</div>
+
+{% endblock adm_area %}

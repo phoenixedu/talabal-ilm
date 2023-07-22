@@ -1,0 +1,98 @@
+{% extends "eduAdmin.html" %}
+{% block title %}{{edu}} | Admissions{% endblock title %}
+{% block adm_area %}
+
+<div class="container bg-fst ">
+
+    <div class="row ">
+        <div class="col-md-8 p-4 txt-clr ">
+            <h3>Admission Poster:</h3>
+            <hr class="bg-light">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.name.errors }}
+                            <label for="{{ form.name.id_for_label }}" class="form-label">Name</label><br>
+                            <input type="text" class="form-control" id="name"  name="name"  >
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="fieldWrapper">
+                            {{ form.sectionStart.errors }}
+                            <label for="{{ form.sectionStart.id_for_label }}" class="form-label">Start From</label><br>
+                            <input type="date" class="form-control" id="sectionStart"  name="sectionStart"  >
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="fieldWrapper">
+                            {{ form.sectionEnd.errors }}
+                            <label for="{{ form.sectionEnd.id_for_label }}" class="form-label">End At</label><br>
+                            <input type="date" class="form-control" id="sectionEnd"  name="sectionEnd"  >
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="fieldWrapper">
+                            {{ form.seats.errors }}
+                            <label for="{{ form.seats.id_for_label }}" class="form-label">Seats</label><br>
+                            <input type="number" class="form-control" id="seats"  name="seats"  >
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="fieldWrapper">
+                            {{ form.bachno.errors }}
+                            <label for="{{ form.bachno.id_for_label }}" class="form-label">Bach #</label><br>
+                            <input type="number" class="form-control" id=" bachno "  name="bachno"  >
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="fieldWrapper">
+                            {{ form.lastDate.errors }}
+                            <label for="{{ form.lastDate.id_for_label }}" class="form-label">Last Date Of Admission</label><br>
+                            <input type="date" class="form-control" id=" lastDate "  name="lastDate"  >
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.requirements.errors }}
+                            <label for="{{ form.requirements.id_for_label }}" class="form-label">Requirements</label><br>
+                            <textarea  class="form-control" id=" requirements " rows="8" name="requirements"  ></textarea >
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h6>course</h6>
+                            <div class="fieldWrapper">
+                                {{ form.course.errors }}
+                                {% for crse in form.course.field.queryset %}
+                                {% if crse.edu == edu %}
+                                    <div class="form-check form-switch form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="selected_courses" id="crse_{{ crse.id }}" value="{{ crse.id }}" {% if crse in form.instance.course.all %}checked{% endif %}>
+                                    <label class="form-check-label" for="crse_{{ crse.id }}">{{ crse }}</label><br>
+                                    </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                      </div>
+                    <br>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.ad.errors }}
+                            <label for="{{ form.ad.id_for_label }}" class="form-label">Image For ADs</label><br>
+                            {{form.ad}}
+                        </div>
+                    </div>
+        
+                    <!--main-row-end-->
+                </div>
+        
+        
+                <button class="w-100 mt-4 btn btn-danger btn-lg" type="submit">Submit</button>
+            </form>
+        </div>
+        <!--main-row-end-->
+    </div>
+
+</div>
+<br>
+{% endblock adm_area %}

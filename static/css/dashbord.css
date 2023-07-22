@@ -1,0 +1,43 @@
+@import 'main.css';
+
+.dashNav{
+    position: relative;
+    height: 100vh;
+    overflow-y: scroll;
+    scrollbar-width: 10px; /* Width of the scrollbar */
+    scrollbar-color: #42a9d1 #42a9d1; /* Color of the scrollbar */
+
+}
+
+/* Track */
+.dashNav::-webkit-scrollbar-track {
+    background: #42a9d1 !important; /* Color of the scrollbar track */
+  }
+  
+  /* Handle */
+.dashNav::-webkit-scrollbar-thumb {
+    background-color: #42a9d1 !important; /* Color of the scrollbar handle */
+    border-radius: 3px; /* Rounded corners for the handle */
+  }
+  
+  /* Handle on hover */
+.dashNav::-webkit-scrollbar-thumb:hover {
+    background-color: #42a9d1 !important; /* Color of the scrollbar handle on hover */
+  }
+.dashNav ul li a{
+    position: relative;
+    color:#ededed !important;
+    border-bottom: 2px solid #42a9d1;
+    width: 100%;
+}
+.btm-nv-db {
+    width: auto;
+    position: relative;
+    margin-top:0px;
+}
+.btm-nv-db .pf-info{
+    width: 100% !important;
+}
+.db-card {
+  margin: 5px 5px;
+}

@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block title %}{{edu}}{% endblock title %}
+{% block fluid_contx %}
+
+<div class="txt-clr mt-0">
+    <!--edu img-->
+    {% if edu.picture %}
+    <div class="edu-img" >
+        <img src="{{MEDIA_URL}}{{edu.picture.url}} " class="fluid-img">
+    </div>
+    {% endif %}
+    <!--nav-edu-->
+    <nav aria-label="breadcrumb ">
+        <ol class="breadcrumb bg-snd ">
+            <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item "><a class="text-danger disable" >EDU</a></li>
+            <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'eduUpdate' edu.pk_key %}">Edit {{edu.name}} </a></li>
+        </ol>
+      </nav>
+      <!---edu-cntainer-->
+    <div class="container bg-snd p-3">
+        <h1>{{edu}}</h1>
+        <h6>{{edu.typeOfInstitution}} </h6>
+        <hr class="tx-bg">
+        <!---first-row-end-->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Contact:</h5>
+                        <p>Email: {{edu.email}}</p>
+                        <p>Phone: {{edu.phone}}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Address:</h5>
+                        <p>Country: {{edu.get_country_display}}</p>
+                        <p>Address: {{edu.address}}</p>
+                    </div>
+                </div>
+                <div class="cs-card mb-3">
+                    <div class="bg-snd p-3">
+                        {% if Defaltpost %}
+                        <h4>{{Defaltpost.title}}</h4>
+                        {{Defaltpost.content|safe}}
+                        <hr class="bg-fst">
+                        <a href="{% url 'defaultPost' Defaltpost.pk Defaltpost.key %}" target="_blank" ><button class="btn btn-danger  mb-1">Update</button></a>
+                        {% endif %}
+                        </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="cs-card">
+                    {% if edu.OwnerOfX.picture %}
+                    <img src="{{MEDIA_URL}}{{edu.OwnerOfX.picture.url }}" alt="{{ genuser.username }}" class="img-fluid rounded">
+                    {% else %}
+                    <img src="http://127.0.0.1:8000/media/images/genUserProfile/mob233-e0573643-8dbb-44e6-839f-0df6825a1b81-9649.jpg" alt="{{ genuser.username }}" class="img-fluid rounded">
+                    {% endif %}
+                    <div class="bg-snd p-3">
+                        <h4>{{edu.OwnerOfX.genuser.get_full_name}}</h4>
+                        <p>PhD;MPhil; MSc; BSCS; </p>
+                    </div>
+                </div>
+            </div>
+        <!---first-row-end-->
+        </div>
+        <!--Scond-Row-->
+        <div class="row">
+            <!--Cources-->
+            <div class="col-12 p-3 mt-3 m-0 bg-danger">
+                <h4>
+                    <span class="float-left">Course</span>
+                    {% if request.user == edu.OwnerOfX %}
+                    <span class="float-right">
+                        <a class="txt-clr" href="{% url 'createcourse' edu.pk_key %}">&#x002B;</a>
+                    </span>
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="col-12">
+                <div class="row bg-fst p-2 ">
+                    {% for course in course_list %}
+            <div class="col-md-6 p-3">
+                <div class="card cs-card w-100" >
+                    <div class="card-body">
+                      <h5 class="card-title">{{course.name}}</h5>
+                      <h6 class="card-subtitle mb-2 text-muted">Duration: {{course.duration}}</h6>
+                      {{course.descripition|safe|truncatewords:20}}
+                    </div>
+                    <div class="row card-body"> 
+                      <div class="col-12 p-0">
+                        <span class="float-left">
+                            <p class="card-subtitle ">Simsters:</p>
+                        </span>
+                        <span class="float-right">
+                            <p  class="card-subtitle ">{{course.totalSimsters}}</p>
+                        </span>
+                      </div><hr>
+                      <div class="col-12 p-0">
+                        <span class="float-left ">
+                            <h6 class="card-subtitle ">Total Fee:</h6>
+                        </span>
+                        <span class="float-right">
+                            <h6 class="card-subtitle ">{{course.totalfee}}</h6>
+                        </span>
+                      </div><hr>
+                      <div class="col-12 p-0">
+                        <a href="{% url 'courseD' edu.pk_key course.name course.pk %}" class="btn btn-danger w-100">More</a>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+                    
+                </div>
+            </div>
+        <!--Second-row-end-->
+        </div>
+        <!--main-container-end-->
+    </div>
+</div>
+
+{% endblock fluid_contx %}
+
+{% comment %} {% for course in course_list %}
+                        <div class="col-md-6">
+                            <div class="cs-card">
+                                <div class="card-body bg-snd">
+                                    <h5 class="card-title">{{course}}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{course.duration}}</h6>
+                                    {{course.descripition|safe|truncatewords:20}}
+                                    <div class="row card-body bg-snd"> 
+                                        <div class="col-12 p-0">
+                                            <span class="float-left">
+                                                <p class="card-subtitle ">Simsters:</p>
+                                            </span>
+                                            <span class="float-right">
+                                                <p  class="card-subtitle ">{{course.totalSimsters}}</p>
+                                            </span>
+                                        </div><hr>
+                                        <div class="col-12 p-0">
+                                            <span class="float-left ">
+                                                <h6 class="card-subtitle ">Total Fee:</h6>
+                                            </span>
+                                            <span class="float-right">
+                                                <h6 class="card-subtitle ">{{course.totalfee}}</h6>
+                                            </span>
+                                        </div>
+                                    </div><hr>
+                                </div><!--cup-->
+                                <div class="col-12 p-0">
+                                    <a href="{% url 'courseD' edu.pk_key course.name %}" class="btn btn-danger w-100">More</a>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %} {% endcomment %}

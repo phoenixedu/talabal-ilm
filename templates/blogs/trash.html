@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Delete Blog Post{% endblock title %}
+{% block contx %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card cs-card  mt-4">
+                <div class="card-body">
+                    <h3>Confirm Deletion</h3>
+                    <p>Are you sure you want to delete the blog post titled "{{ blog.title }}"?</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        {% comment %} <a href="{% url 'BlogPD' blog.uuid %}" class="btn btn-secondary">Cancel</a> {% endcomment %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock contx %}

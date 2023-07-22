@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}{{edu}} | Job Poster {% endblock title %}
+{% block contx %}
+
+<div class="card cs-card p-4">
+    <div class="row">
+        <div class="col-md-6">
+            {% if job.ad %}
+                <img class="img-fluid" src="{{MEDIA_URL}}{{job.ad.url}}" alt="{{job.name}}" style="height:450px; width:100%;">
+            {% else %}
+                <p>No Img</p>
+            {% endif %}
+        </div>
+        <div class="col-md-6 bg-snd">
+            <h1>Job Details</h1>
+            <p>Name: {{ job.name }}</p>
+            <p>For Post: {{ job.forPost }}</p>
+            <p>Seats: {{ job.seats }}</p>
+            <p>Joining: {{ job.joining }}</p>
+            <p>Last Date: {{ job.lastDate }}</p>
+            <p>Requirements:</p>
+            {{ job.requirements|linebreaksbr|safe}}
+            
+            <div class="d-flex justify-content-end">
+                <a  href="{% url 'empolyForm' edu.pk_key job.pk  %}">
+                    <button  class="btn btn-danger">Apply Now</button>
+                </a>
+            </div>
+        
+        </div>
+    </div>
+</div>
+{% endblock contx %}

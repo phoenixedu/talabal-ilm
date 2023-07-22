@@ -1,0 +1,17 @@
+{% extends "dboard.html" %}
+{% block title %}Email Confirmed{% endblock title %}
+{% block dashRoom %}
+<div>
+    <h1>Email Confirmed</h1>
+    <p>Your email has been successfully confirmed. Thank you!</p>
+
+    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+</div>
+{% endblock dashRoom %}

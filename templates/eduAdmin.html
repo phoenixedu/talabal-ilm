@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+{% block title %}Admin | EDU{% endblock title %}
+{% block fluid_contx %}
+
+<div class="container-fluid  p-0 txt-clr ">
+    <div class="row ">
+        <div class="col-md-3  sticky-top  dashNav p-0" style="min-height:100%;">
+        
+            
+            <ul class="nav flex-column  p-4">
+                {% if edu %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'eduD' edu.pk_key  %}">{{edu}}</a>
+                </li>
+                {% endif %}
+                {% if edu.OwnerOfX %}
+                    {% comment %} <a class="dropdown-item " href="#">Course Form +</a> {% endcomment %}
+                    {% comment %} <a class="dropdown-item " href="{% url 'createTeacherGroup' edu.pk_key %}">Teacher Group</a> {% endcomment %}
+                    {% comment %} <a class="dropdown-item " href="{% url 'createClearkGroup' edu.pk_key %}">Cleark Group</a> {% endcomment %}
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'addept' edu.pk_key %}">Create Department +</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'createclass' edu.pk_key %}">Create Class +</a>
+                </li>
+                <li class="nav-item">                    
+                    <a class="nav-link " href="{% url 'createlab' edu.pk_key %}">Create Lab +</a>
+                </li>
+                <li class="nav-item">                    
+                    <a class="nav-link " href="{% url 'addRole' edu.pk_key %}">Add Role +</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'createSociety' edu.pk_key %}">Create Society +</a>
+                </li>
+                <li>
+                    <a class="nav-link " href="{% url 'createBooks' edu.pk_key %}">Book Form +</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admission' edu.pk_key %}">Admission Poster +</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'jobvacancy' edu.pk_key %}">Job Poster +</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'LOA' edu.pk_key %}">List of Student Applications </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'CVs' edu.pk_key %}">List of CVs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'classCList' edu.pk_key %}">List Of Classes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'allGroups' edu.pk_key %}">All Groups</a>
+                </li>
+                {% endif %} 
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link 3</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9 ">
+        {% block adm_area %}
+        
+        <!--main-firsr-Row-->
+        <div class="row pr-2 pl-2">
+            <!--student-->
+            <div class="col-md-4 mb-2">
+                <div class="card cs-card text-dark">
+                    <div class="card-body bg-warning">
+                        <h6>Total Student:</h6>
+                        <h1>{{contStudent}}</h1>
+                        <p>
+                            <a class="text-dark float-right" href="{% url 'studentsList' edu.pk_key %}">View List</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--Faculty-->
+            <div class="col-md-4 mb-2">
+                <div class="card cs-card text-dark">
+                    <div class="card-body bg-warning">
+                        <h6>Total Faculty:</h6>
+                        <h1>{{contFlty}}</h1>
+                        <p>
+                            <a class="text-dark float-right" href="{% url 'facultiesList' edu.pk_key %}">View List</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--thrd-->
+            <div class="col-md-4 mb-2">
+                <div class="card cs-card text-dark">
+                    <div class="card-body bg-warning">
+                        <h6>Total Faculty:</h6>
+                        <h1>123</h1>
+                        <p>
+                            <a class="text-dark float-right" href="#">View List</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--main-firsr-Row-->
+        </div>
+        <!--recuritry-froms-->
+        <div class="row">
+            <!--admissions-->
+            {% if admision_poster %}
+            <div class="col-md-6 p-4">
+                <h5>Admission Open</h5>
+                {% for formAD in admision_poster.all %}
+                {% if formAD.status == 'Ongoing' %}
+                <div class="cs-card">
+                    <div class="bg-snd card-body">
+                        <h5 class="card-title">{{formAD.name}}</h5>
+                        <p class="text-muted">Last date of admissions: {{formAD.lastDate}}</p>
+                        <b>Courses Available:</b>
+                        <ol>
+                            {% for i in formAD.course.all %}
+                            <a href="{% url 'courseD' edu.pk_key i.name i.pk %}" target="_blank" class="txt-clr"><li>{{i}}</li></a>
+                            {% endfor %}
+                        </ol>
+                        <p>Bach #{{formAD.bachno}}</p>
+                        <div class="mb-3">
+                            <div class="float-left">
+                                <a href="{% url 'admissionD' edu.pk_key formAD.pk formAD.name %}"><button class="btn btn-danger btn-sm">View</button></a>
+                            </div>
+                            <div class="float-right">
+                                <a><button class="btn btn-danger btn-sm">Apply</button></a>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div><br>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            <!--jobvacancy-->
+            {% if cv_poster %}
+            <div class="col-md-6 p-4">
+                <h5>Jobs Vacancy</h5>
+                {% for cv in cv_poster.all %}
+                {% if cv.status == 'Ongoing' %}
+                <div class="cs-card">
+                    <div class="bg-snd card-body">
+                        <h5 class="card-title">{{cv.name}}</h5>
+                        <p class="text-muted">Last date: {{cv.lastDate}}</p>
+                        <b>Post Available:</b>
+                        <ol>
+                            {% for i in cv.forPost.all %}
+                            <a href="{% url 'courseD' edu.pk_key i.name i.pk %}" target="_blank" class="txt-clr"><li>{{i}}</li></a>
+                            {% endfor %}
+                        </ol>
+                        <p>Joining: {{cv.joining}}</p>
+                        <p>Seats: {{cv.seats}}</p>
+                        <div class="mb-3">
+                            <div class="float-left">
+                                <a href="{% url 'jobd' edu.pk_key cv.pk cv.name %}"><button class="btn btn-danger btn-sm">View</button></a>
+                            </div>
+                            <div class="float-right">
+                                <a><button class="btn btn-danger btn-sm">Apply</button></a>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div><br>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+        </div>
+        <div class="p-2">
+        <!--class-table-1st-->
+        <table class="table bg-snd txt-clr">
+            <thead class="cs-card">
+              <tr>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Semester</th>
+                <th>Department</th>
+                <th>Location</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for class in class_list %}
+                <tr>
+                  <td>{{ class.name }}</td>
+                  <td>{{ class.course }}</td>
+                  <td>{{ class.semister }}</td>
+                  <td>{{ class.department }}</td>
+                  <td>{{ class.location }}</td>
+                  <td>
+                    <a href="#">
+                        <button class="btn main-bg btn-sm">View</button>
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+        <!--Department-table-2nd-->
+        <div class="row">
+            <div class="col-md-5">
+                <table class="table bg-snd txt-clr">
+                    <thead class="cs-card">
+                        <tr>
+                          <th>Name</th>
+                          <th>Location</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for dept in dept_list %}
+                          <tr>
+                            <td>{{ dept.name }}</td>
+                            <td>{{ dept.location }}</td>
+                            <td>
+                              <a href="#">
+                                  <button class="btn main-bg btn-sm">View</button>
+                              </a>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                </table>
+            </div>
+            <div class="col-md-7">
+                <table class="table bg-snd txt-clr">
+                    <thead class="cs-card">
+                        <tr>
+                            <th>Lab</th>
+                            <th>Department</th>
+                            <th>Location</th>
+                            <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for lab in labs_list %}
+                        <tr>
+                            <td>{{ lab.name }}</td>
+                            <td>{{ lab.department }}</td>
+                            <td>{{ lab.location }}</td>
+                            <td>
+                              <a href="#">
+                                  <button class="btn main-bg btn-sm">View</button>
+                              </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                </table>
+            </div>
+        </div>
+        <!--3rd-->
+        </div>
+        {% endblock adm_area %}
+        </div>
+    </div>
+</div>
+
+{% endblock fluid_contx %}

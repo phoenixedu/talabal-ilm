@@ -1,0 +1,44 @@
+{% extends "dboard.html" %}
+{% block title %}Profile{% endblock title %}
+{% block dashRoom %}
+<div class="cs-card card-body mt-4 mr-3">
+<h3>{{genuser.get_full_name}}</h3>
+<hr class="main-bg">
+<div class="row">
+      <div class="col-md-8">
+        <p><strong>Name:</strong> {{ genuser.get_full_name }}</p>
+        <p><strong>Username:</strong> {{ genuser.username }}</p>
+        <p><strong>Father's Name:</strong> {{ genuser.father_name }}</p>
+        <p><strong>Phone Number:</strong> {{ genuser.PhoneNumber }}</p>
+        <p><strong>Email:</strong> {{ genuser.email }}</p>
+        <p><strong>CNIC:</strong> {{ genuser.cnic }}</p>
+        <p><strong>Date of Birth:</strong> {{ genuser.DOB }}</p>
+        <p><strong>Country:</strong> {{ genuser.get_country_display }}</p>
+        <p><strong>Sex:</strong> {{ genuser.sex }}</p>
+        
+        {% if request.user.genuser.username == genuser.username %}
+        <a href="{% url 'profileupdate' genuser %}"><button class="btn main-bg">Update</button></a>
+        {% endif %}
+      </div>
+      <div class="col-md-4">
+        <h3>Profile Picture</h3>
+        {% if genuser.picture %}
+          <img src="{{MEDIA_URL}}{{genuser.picture.url }}" alt="{{ genuser.username }}" class="img-fluid rounded">
+        {% else %}
+
+          <img src="http://127.0.0.1:8000/media/images/genUserProfile/mob233-e0573643-8dbb-44e6-839f-0df6825a1b81-9649.jpg" alt="{{ genuser.username }}" class="img-fluid rounded">
+        {% endif %}
+        {% if request.user.genuser.username == genuser.username %}
+        <form method="POST" enctype="multipart/form-data" class="float-right">
+          {% csrf_token %}
+          <div class="form-group mt-2 ">
+            <input type="file" class="form-control-file float-right btn-sm" id="picture" name="picture" accept="image/*">
+          </div>
+          <button type="submit" class="main-bg btn btn-sm float-right">Upload</button>
+        </form>
+        {% endif %}
+        
+      </div>
+    </div>
+</div>
+{% endblock dashRoom %}

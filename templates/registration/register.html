@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block title %}PIX | Register{% endblock title %}
+
+{% block contx %}
+
+<div class="container bg-fst card ">
+
+    <div class="row ">
+        <div class="col-md-8 p-4 bg-snd txt-clr ">
+            <h3>Register Now:</h3>
+            <hr class="bg-light">
+            <form method="POST"  enctype="multipart/form-data" action="">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="fieldWrapper">
+                            {{ form.first_name.errors }}
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label">Frist Name</label><br>
+                            <input type="text" class="form-control" id=" first_name "  name="first_name"  >
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="fieldWrapper">
+                            {{ form.last_name.errors }}
+                            <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label><br>
+                            <input type="text" class="form-control" id=" last_name "  name="last_name"  >
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.username.errors }}
+                            <label for="{{ form.username.id_for_label }}" class="form-label">Username</label><br>
+                            <input type="text" class="form-control" id=" username "  name="username"  >
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.email.errors }}
+                            <label for="{{ form.email.id_for_label }}" class="form-label"> Email</label><br>
+                            <input type="email" class="form-control" id=" email "  name="email"  >
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.password1.errors }}
+                            <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label><br>
+                            <input type="password" class="form-control" id=" password1 "  name="password1"  >
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.password2.errors }}
+                            <label for="{{ form.password2.id_for_label }}" class="form-label">Conform Password</label><br>
+                            <input type="password" class="form-control" id=" password2 "  name="password2"  >
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.father_name.errors }}
+                            <label for="{{ form.father_name.id_for_label }}" class="form-label">Father Name </label><br>
+                            <input type="text" class="form-control" id=" father_name "  name="father_name"  >
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="fieldWrapper">
+                            {{ form.PhoneNumber.errors }}
+                            <label for="{{ form.PhoneNumber.id_for_label }}" class="form-label">Phone Number</label><br>
+                            <input type="text" class="form-control" id=" PhoneNumber "  name="PhoneNumber"  >
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="fieldWrapper">
+                            {{ form.cnic.errors }}
+                            <label for="{{ form.cnic.id_for_label }}" class="form-label">CNIC</label><br>
+                            <input type="text" class="form-control" id=" cnic "  name="cnic"  >
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            <p>{{ form.country.errors }}</p>
+                            <label for="{{ form.country.id_for_label }}"  class="form-label">Country</label>
+                            <select class="form-control" id="{{ form.country.id_for_label }}" name="{{ form.country.html_name }}">
+                                {% for code, name in form.country.field.choices %}
+                                    <option value="{{ code }}" {% if form.country.value == code %}selected{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                          </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                         <div class="col-md-6">
+                          <div class="fieldWrapper">
+                              <p>{{ form.sex.errors }}</p>
+                              <label for="{{ form.sex.id_for_label }}">Sex</label>
+                              <select class="form-control" id="sex" name="sex">
+                                  <option value="male" {% if form.sex.value == 'male' %}selected{% endif %}>Male</option>
+                                  <option value="female" {% if form.sex.value == 'female' %}selected{% endif %}>Female</option>
+                                  <option value="other" {% if form.sex.value == 'other' %}selected{% endif %}>Other</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="fieldWrapper">
+                              <p>{{ form.DOB.errors }}</p>
+                              <label for="{{ form.DOB.id_for_label }}">Date Of Birth</label>
+                              <input type="date" class="form-control" id=" DOB "  name="DOB"  >                      
+                          </div>
+                        </div>
+                       </div>
+                    </div>
+                    <!--form_row_end-->
+                    </div>
+                    <br>
+                    <button class="w-100 btn main-bg btn-lg" type="submit">Submit</button>
+                    <p class="mt-1 text-center mb-0 ">Alrady have an account, <a href="{% url 'login' %}">LogIn</a>.</p>
+                </form>
+        </div>
+        <br>
+        <div class="col-md-4 ">
+            <div class="cs-card mt-2 card-body">
+               <h4>About Us:</h4> 
+               <p>A school management system is a comprehensive software solution designed to 
+               streamline and automate various administrative and operational tasks within educational
+                institutions. It serves as a centralized platform that facilitates efficient management 
+                of day-to-day operations, communication, and information flow between 
+               different stakeholders, including administrators, teachers, students, parents, and staff.</p>
+            </div>
+            
+        </div>
+        <!--main-row-end-->
+    </div>
+
+</div>
+<br>
+
+{% endblock contx %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}{{edu}} | Lectures {% endblock title %}
+{% block contx %}
+<div class="txt-clr cs-card">
+    <h1>List Of Lectures</h1>
+    <p>Institution: {{edu}}</p>
+    <p>Class: {{cls}}</p>
+
+    <div class="table-responsive  bg-snd">
+        <table class="table txt-clr">
+            <thead>
+                <tr>
+                    
+                    <th>Title</th>
+                    <th>Teacher</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lecture in all_lecture %}
+                     <tr>
+                        <td>{{lecture.title}}</td>
+                        <td>{{ lecture.teacher.user }}</td>
+                        <td>{{ lecture.date.date }}</td>
+                        <td>{{ lecture.date.time }}</td>
+                        <td>
+                            {% if lecture.cancel %}
+                            Cancel
+                            {% elif lecture.over %}
+                            Over
+                            {% else %}
+                            Upcoming
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if lecture.cancel %}
+                            <form action="" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                    <input type="hidden" name="lecture_id" value="{{ lecture.id }}">
+                                    <input type="hidden" name="action" value="undo"> 
+                                    <button class="btn btn-danger btn-sm" type="submit">Undo</button>
+                            </form>
+                            {% else %}
+                            <form action="" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                    <input type="hidden" name="lecture_id" value="{{ lecture.id }}">
+                                    <input type="hidden" name="action" value="cancel"> 
+                                    <button class="btn btn-danger btn-sm" type="submit">Cancel</button>
+                            </form>
+                            {% endif %}
+                            
+                            <a href="{% url 'electureD' edu.pk_key cls.cls_key lecture.pk lecture.title %}" class="d-inline">
+                                <button class="btn btn-success btn-sm" >View</button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No lectures found.</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="6">
+                        <a class="text-danger float-left" href="{% url 'classCD' edu.pk_key cls.pk cls.name %}"> &larr; Back</a>
+                        <a class="text-danger float-right" href="{% url 'ElectureForm' edu.pk_key cls.pk cls.name %}">  Add lectures &#8594</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock contx %}

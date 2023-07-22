@@ -1,0 +1,48 @@
+{% extends 'eduAdmin.html' %}
+{% block title %}{{edu}} | Admission Applications {% endblock title %}
+{% block adm_area %}
+
+<div class="container">
+    <table class="table txt-clr bg-snd table-striped">
+        <thead  class="cs-card">
+            <tr>
+                <th>Full Name</th>
+                <th>Father Name</th>
+                <th>Age</th>
+                <th>District</th>
+                <th>City</th>
+                <th>Education Class</th>
+                <th>Date of Application</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <form method="POST">
+                {% csrf_token %}
+                {% for object in applications %}
+                {% if object.status == 'Pending' %}
+                <tr>
+                    <td>{{ object.userS.get_full_name }}</td>
+                    <td>{{ object.userS.genuser.father_name }}</td>
+                    <td>{{ object.userS.genuser.age}}</td>
+                    <td>{{ object.Districe }}</td>
+                    <td>{{ object.city }}</td>
+                    <td>{{ object.educlass }}</td>
+                    <td>{{ object.dateOfapplyed.date }}</td>
+                    <td>
+                        <input type="hidden" name="student_id" value="{{ object.id }}">
+                        <input type="hidden" name="status" value="Approved">
+                        <!-- Use a submit button instead of separate accept/reject buttons -->
+                        <button class="btn btn-success" type="submit">Accept</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8"></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </form> 
+        </tbody>
+    </table>
+</div>
+{% endblock adm_area %}

@@ -1,0 +1,44 @@
+{% extends 'dboard.html' %}
+{% block title %}Change Password{% endblock title %}
+{% block dashRoom %}
+
+<div class="card-body txt-clr bg-fst">
+    <h1>Settings:</h1>
+    <hr class="main-bg">
+    <div class="row">
+         <div class="col-12 cs-card">
+        <div class="">
+            <span class="float-left">
+                <h5>Change Password :</h5>
+            </span>
+            <span class="float-right">
+                <p class="float-right">{{request.user}} </p>
+            </span>
+        </div><br>
+        <hr class="bg-dark">
+        <form class="form" method="POST" action="">
+            {% csrf_token %}
+            <div class="row ">
+                <div class="col-md-8">
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <label for="newpw" class="form-label">New Password</label>
+                    <input type="Password" id="newpw" class="form-control" name="password" required>
+                    <label for="ConformPW" class="form-label">Conform Password</label>
+                    <input type="Password" id="ConformPW" class="form-control" name="confirm_password" required>
+                    <button class="btn btn-danger m-2" type="submit" >Submit</button><br>
+                </div>
+            </div>
+        </form>
+    </div>  
+        <!--RowEnd-->
+    </div>
+</div>
+
+
+{% endblock dashRoom %}

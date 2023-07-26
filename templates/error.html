@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Talab al-ilm{% endblock title %}
+
+{% block contx %}
+<div class="container error-container  p-2">
+  <div class="jumbotron  cs-card p-2 text-center">
+    <div class="bg-snd txt-clr p-4">
+      <h1 class="display-4">Error {{ error_status }}</h1>
+      <p class="lead">Oops! An error occurred.</p>
+      <hr class="main-bg">
+      <p>{{ error_name }} - {{ error_message }}</p>
+      <a class="btn btn-danger btn-lg" href="#" onclick="goBack()">Go Back</a>
+    </div>
+  </div>
+</div>
+{% endblock contx %}
+<!--page-scrips-->
+{% block scripts %}
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
+{% endblock scripts %}
+

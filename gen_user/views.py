@@ -8,16 +8,23 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ValidationError
 from .emailconformation import send_confirmation_email
 from django.contrib import messages
+# error
+from django.http import Http404
+from django.core.exceptions import PermissionDenied,ValidationError,SuspiciousOperation
 # Models from All Apps 
-from edu.models import xEduInstitution
+from edu.models import xEduInstitution,userEdu
 
 @login_required
 def index(request):
     template_name = 'index.html'
-    return render(request,template_name)
+    if request.user.is_authenticated:
+        in_edu = userEdu.objects.filter(user=request.user,current=True)
+    contx = {
+        'in_edu' : in_edu
+    }
+    return render(request,template_name,contx)
     
 class registerGenUser(View):
     model = GenUser
@@ -108,18 +115,6 @@ class profileUpdateGenUser(LoginRequiredMixin,UserRestrictedQuerysetMixin,Update
             }
             return render(request,self.template_name,contx)
 
-    # 
-    # def get_success_url(self):
-    #     username = self.request.user.genuser.username
-    #     return reverse_lazy('genProfile', kwargs={'username': username})
-    
-    # def get_object(self, queryset=None):
-    #     return self.request.user.genuser
-
-    # def form_valid(self, form):
-    #     form.instance.user = self.request.user
-    #     return super().form_valid(form)
-
 class customUserLogin(LoginView):
     authentication_form = CustomAuthenticationForm
     template_name = 'registration/login.html'
@@ -200,3 +195,30 @@ class ChangePasswordView(LoginRequiredMixin,UserRestrictedQuerysetMixin,View):
                     return redirect(request.path)
         except:
             pass
+
+class ErrorHandlingView(View):
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            return super().dispatch(request, *args, **kwargs)
+        except Exception as e:
+            # Pass the error details to the error template
+            context = self.get_error_context(request, e)
+            return render(request, 'error.html', context, status=self.get_error_status(e))
+
+    def get_error_context(self, request, exception):
+        # Return a dictionary containing error details
+        return {
+            'error_name': type(exception).__name__,
+            'error_message': str(exception),
+        }
+
+    def get_error_status(self, exception):
+        # Determine the HTTP status code based on the exception type
+        if isinstance(exception, Http404):
+            return 404
+        elif isinstance(exception, PermissionDenied):
+            return 403
+        elif isinstance(exception, SuspiciousOperation):
+            return 400
+        else:
+            return 500

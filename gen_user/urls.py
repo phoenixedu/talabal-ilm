@@ -3,6 +3,7 @@ from .views import registerGenUser,customUserLogin,index,GenUserProfile,profileU
 from django.contrib.auth.views import LogoutView 
 from django.conf import settings
 from django.conf.urls.static import static
+
 urlpatterns = [
     path('', index , name='home'),
     path('register/', registerGenUser.as_view() , name='register'),
@@ -13,7 +14,6 @@ urlpatterns = [
     path('u/setting/<str:username>',profileSetting.as_view(),name="profileSetting"),
     path('u/reset-pw/<str:username>', ChangePasswordView.as_view(), name='pwreset'),
     path('u/confirm_email/<str:token>/', emailVerification.as_view(), name='confirm_email'),
-    
 
 ]
 if settings.DEBUG:

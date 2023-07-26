@@ -1,65 +1,75 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Admin | EDU{% endblock title %}
+{% block head_files %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/sl-nav.css' %}">
+{% endblock head_files %}
 {% block fluid_contx %}
 
-<div class="container-fluid  p-0 txt-clr ">
-    <div class="row ">
-        <div class="col-md-3  sticky-top  dashNav p-0" style="min-height:100%;">
-        
-            
-            <ul class="nav flex-column  p-4">
-                {% if edu %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'eduD' edu.pk_key  %}">{{edu}}</a>
-                </li>
-                {% endif %}
-                {% if edu.OwnerOfX %}
-                    {% comment %} <a class="dropdown-item " href="#">Course Form +</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item " href="{% url 'createTeacherGroup' edu.pk_key %}">Teacher Group</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item " href="{% url 'createClearkGroup' edu.pk_key %}">Cleark Group</a> {% endcomment %}
-                <li class="nav-item">
-                    <a class="nav-link " href="{% url 'addept' edu.pk_key %}">Create Department +</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="{% url 'createclass' edu.pk_key %}">Create Class +</a>
-                </li>
-                <li class="nav-item">                    
-                    <a class="nav-link " href="{% url 'createlab' edu.pk_key %}">Create Lab +</a>
-                </li>
-                <li class="nav-item">                    
-                    <a class="nav-link " href="{% url 'addRole' edu.pk_key %}">Add Role +</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="{% url 'createSociety' edu.pk_key %}">Create Society +</a>
-                </li>
-                <li>
-                    <a class="nav-link " href="{% url 'createBooks' edu.pk_key %}">Book Form +</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'admission' edu.pk_key %}">Admission Poster +</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'jobvacancy' edu.pk_key %}">Job Poster +</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'LOA' edu.pk_key %}">List of Student Applications </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'CVs' edu.pk_key %}">List of CVs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'classCList' edu.pk_key %}">List Of Classes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'allGroups' edu.pk_key %}">All Groups</a>
-                </li>
-                {% endif %} 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link 3</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-9 ">
+<div class="ccontainer-fluid globel-side">
+    <div class="nav-slide">
+        <label>
+            <input type="checkbox" class="checkit">
+            <div class="toggle">
+                <span class="fst-coln common "><i class="bi bi-arrow-left-square-fill"></i></span>
+                <span class="snd-coln common "><i class="bi bi-arrow-right-square-fill"></i></span>
+                <span class="trd-coln common "></span>
+            </div>
+            <div class="nav-area">
+                <ul class="nav flex-column  p-4">
+                    {% if edu %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'eduD' edu.pk_key  %}">{{edu}}</a>
+                    </li>
+                    {% endif %}
+                    {% if edu.OwnerOfX %}
+                    <li class="nav-item">
+                        <a class="nav-link " href="{% url 'createcourse' edu.pk_key %}">Create Course +</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="{% url 'addept' edu.pk_key %}">Create Department +</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="{% url 'createclass' edu.pk_key %}">Create Class +</a>
+                    </li>
+                    <li class="nav-item">                    
+                        <a class="nav-link " href="{% url 'createlab' edu.pk_key %}">Create Lab +</a>
+                    </li>
+                    <li class="nav-item">                    
+                        <a class="nav-link " href="{% url 'addRole' edu.pk_key %}">Add Role +</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="{% url 'createSociety' edu.pk_key %}">Create Society +</a>
+                    </li>
+                    <li>
+                        <a class="nav-link " href="{% url 'createBooks' edu.pk_key %}">Book Form +</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admission' edu.pk_key %}">Admission Poster +</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'jobvacancy' edu.pk_key %}">Job Poster +</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'LOA' edu.pk_key %}">List of Student Applications </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'CVs' edu.pk_key %}">List of CVs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'classCList' edu.pk_key %}">List Of Classes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'allGroups' edu.pk_key %}">All Groups</a>
+                    </li>
+                    {% endif %} 
+                </ul>
+            </div>
+        </label>
+    </div>
+    <!--contx-->
+    <div class="contx txt-clr">
         {% block adm_area %}
         
         <!--main-firsr-Row-->
@@ -173,6 +183,7 @@
         </div>
         <div class="p-2">
         <!--class-table-1st-->
+        {% if class_list %}
         <table class="table bg-snd txt-clr">
             <thead class="cs-card">
               <tr>
@@ -201,8 +212,11 @@
               {% endfor %}
             </tbody>
         </table>
+        {% endif %}
         <!--Department-table-2nd-->
         <div class="row">
+            <!--department-->
+            {% if dept_list %}
             <div class="col-md-5">
                 <table class="table bg-snd txt-clr">
                     <thead class="cs-card">
@@ -227,6 +241,9 @@
                       </tbody>
                 </table>
             </div>
+            {% endif %}
+            <!--lab-list-->
+            {% if labs_list %}
             <div class="col-md-7">
                 <table class="table bg-snd txt-clr">
                     <thead class="cs-card">
@@ -253,12 +270,14 @@
                       </tbody>
                 </table>
             </div>
+            {% endif %}
+            
         </div>
         <!--3rd-->
         </div>
         {% endblock adm_area %}
-        </div>
     </div>
+    <!--main-f-container-->
 </div>
 
 {% endblock fluid_contx %}

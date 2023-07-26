@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import pytz
+import boto3
+from storages.backends.s3boto3 import S3Boto3Storage
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,9 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_6fu$++@hf&74o8#v^a-0=z1czvb^#b-zzhm*+0n^z)gs+=23j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,6 +51,7 @@ INSTALLED_APPS = [
     'blogs_post.apps.BlogsPostConfig',
     'edu_permissions.apps.EduPermissionsConfig',
     'ckeditor',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -86,14 +89,23 @@ WSGI_APPLICATION = 'phoenix_v_0.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'sfvj6t4wMt6Q2th1heYg',
+        'HOST': 'containers-us-west-100.railway.app',
+        'PORT': '5656',
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -165,6 +177,24 @@ CKEDITOR_CONFIGS = {
     },
 }
 
+
+# AWS S3 configuration
+AWS_ACCESS_KEY_ID = 'AKIA5Q7CJSVVPIL26IEW'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'talabal-ilm'
+AWS_S3_REGION_NAME = 'eu-north-1'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
+AWS_S3_ENDPOINT_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/'
+
+# Static and media file storage using S3
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# # Static and media URLs
+STATIC_URL = f'{AWS_S3_ENDPOINT_URL}static/'
+MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}media/'
 
 
 

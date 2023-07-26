@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Talab al-ilm | Error 404{% endblock title %}
+
+{% block contx %}
+<div class="container error-container  p-2">
+  <div class="jumbotron  cs-card p-2 text-center">
+    <div class="bg-snd txt-clr p-4">
+      <h1 class="display-4">Error 404</h1>
+      <p class="lead">Oops! The page you are looking for does not exist.</p>
+      <hr class="main-bg">
+      <p>Sorry, but the page you are trying to access is not available or may have been moved.</p>
+      <a class="btn btn-danger btn-lg" href="#" onclick="goBack()">Go Back</a>
+    </div>
+  </div>
+</div>
+{% endblock contx %}
+<!--page-scrips-->
+{% block scripts %}
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
+{% endblock scripts %}
+

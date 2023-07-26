@@ -85,8 +85,8 @@ class jobCvForm(models.Model):
 
 class eduStudents(models.Model):
     edu = models.ForeignKey(xEduInstitution , on_delete=models.CASCADE) 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    dataForm = models.ForeignKey(studentAdmitForm, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name="iam_student")
+    dataForm = models.ForeignKey(studentAdmitForm, on_delete=models.CASCADE,null=True,blank=True)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     eduID = models.CharField(max_length=50,null=True,blank=True)
     joinedAt = models.DateField(default=timezone.now,editable=False)
@@ -108,8 +108,8 @@ class eduStudents(models.Model):
     
 class eduFaculty(models.Model):
     edu = models.ForeignKey(xEduInstitution , on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    dataForm = models.ForeignKey(jobCvForm, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='iam_faculty')
+    dataForm = models.ForeignKey(jobCvForm, on_delete=models.CASCADE,null=True,blank=True)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     eduID = models.CharField(max_length=50,null=True,blank=True)
     joinedAt = models.DateField(default=timezone.now,editable=False)
@@ -125,28 +125,7 @@ class eduFaculty(models.Model):
         if self.disable:
             self.ex_Faculty = True
             super().save(*args, **kwargs)
-        
 
     def __str__(self):
         return str(f"{self.user} | {self.user.get_full_name()}")
-    
-class EduMember(models.Model):
-    edu = models.ForeignKey(xEduInstitution , on_delete=models.CASCADE)
-    eduStudent = models.ForeignKey(studentAdmitForm,null=True,blank=True, on_delete=models.CASCADE)
-    eduemployees = models.ForeignKey(jobCvForm,null=True,blank=True, on_delete=models.CASCADE)
-    group = models.ManyToManyField(Group)
-    eduID = models.CharField(max_length=50,null=True,blank=True)
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
-    dateOfReg = models.DateField(default=timezone.now,editable=False)
-
-    def save(self, *args, **kwargs):
-        if self.eduStudent:
-            self.eduID = str(f"st_{str(self.edu)}{self.eduStudent}{str(self.uuid)[:5]}").replace(" ", "")
-            super().save(*args, **kwargs)
-        elif self.eduemployees:
-            self.eduID = str(f"flt_{self.edu}{self.eduemployees}{str(self.uuid)[:5]}").replace(" ", "")
-            super().save(*args, **kwargs)
-
-    def __str__(self):
-        return str(f"{self.eduID}")
     

@@ -50,14 +50,14 @@
             </div>
             <div class="col-md-4">
                 <div class="cs-card">
-                    {% if edu.OwnerOfX.picture %}
-                    <img src="{{MEDIA_URL}}{{edu.OwnerOfX.picture.url }}" alt="{{ genuser.username }}" class="img-fluid rounded">
+                    {% if edu.OwnerOfX.genuser.picture %}
+                    <img src="{{MEDIA_URL}}{{edu.OwnerOfX.genuser.picture.url }}" alt="{{ genuser.username }}" class="img-fluid rounded" style="width:100%;">
                     {% else %}
                     <img src="http://127.0.0.1:8000/media/images/genUserProfile/mob233-e0573643-8dbb-44e6-839f-0df6825a1b81-9649.jpg" alt="{{ genuser.username }}" class="img-fluid rounded">
                     {% endif %}
                     <div class="bg-snd p-3">
                         <h4>{{edu.OwnerOfX.genuser.get_full_name}}</h4>
-                        <p>PhD;MPhil; MSc; BSCS; </p>
+                        <p></p>
                     </div>
                 </div>
             </div>

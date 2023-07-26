@@ -1,6 +1,6 @@
 from django import forms
 from .models import ClassOfStudents,Electure,electureNotes
-from edu_members.models import EduMember,eduFaculty
+from edu_members.models import eduFaculty
 from edu_stracture.models import eduClass
 
 class ClassOfStudentsForm(forms.ModelForm):

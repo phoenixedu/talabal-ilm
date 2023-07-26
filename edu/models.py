@@ -60,13 +60,6 @@ class InstCourse(models.Model):
     totalSimsters = models.IntegerField(null=True,blank=True)
     smFull = models.BooleanField(default=False)
 
-    '''def save(self, *args, **kwargs):
-        if self.totalSimsters is not None:
-            existing_semesters = Semester.objects.filter(course_id=self.id).count()
-            if existing_semesters >= self.totalSimsters:
-                self.smFull = True
-        super().save(*args, **kwargs)'''
-
     def __str__(self):
         return f"{self.name}"  
 
@@ -101,4 +94,14 @@ class Semester(models.Model):
     def __str__(self):
         return str(f"{self.name} | {self.course}")
     
+class userEdu(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="iam_in_edu")
+    edu = models.ForeignKey(xEduInstitution,on_delete=models.CASCADE)
+    current = models.BooleanField(default=True)
+    study_at = models.BooleanField(default=False)
+    work_at = models.BooleanField(default=False)
+    since_in = models.DateTimeField(auto_now_add=True)
+    till_out = models.DateTimeField(auto_now_add=False,null=True,blank=True)
 
+    def __str__(self):
+        return f"{self.user} ({self.edu})"

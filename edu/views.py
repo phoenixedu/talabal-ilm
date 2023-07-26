@@ -1,12 +1,13 @@
 from django.shortcuts import render ,redirect
 from django.views.generic import DetailView,UpdateView
 from django.views import View
-from .models import xEduInstitution ,InstCourse,Semester,Book
+from .models import xEduInstitution,InstCourse,Semester,Book,userEdu
 from django.shortcuts import get_object_or_404
-from .forms import  InstCourseForm, SemesterForm,updateSemester,BookForm ,updateCourse,xEduInstitutionForm,updateEDU
+from .forms import  InstCourseForm, SemesterForm,updateSemester,BookForm,updateCourse,xEduInstitutionForm,updateEDU
 from django.urls import reverse_lazy
 from blogs_post.models import DefaltBlogPost
 from edu_permissions.models import HeadOfInstetude
+from edu_members.models import eduFaculty 
 
 class createInstetude(View):
     template_name = 'edu/eduForm.html'
@@ -32,6 +33,11 @@ class createInstetude(View):
                 user = instance.OwnerOfX
                 head= HeadOfInstetude.objects.create(edu=instance)
                 head.members.add(user)
+                fty_edu,_ = eduFaculty.objects.get_or_create(edu=instance,user=user,equiet=True)
+                try:
+                    userEdu.objects.get_or_create(user=user,edu=instance,work_at=True)
+                except:
+                    pass
             except:
                 pass
             return redirect('home')
@@ -121,6 +127,7 @@ class courseDetail(DetailView):
         return render(request,self.template_name,contx)
 
 class createBooks(View):
+    model = Book
     template_name = 'edu/bookForm.html'
     form_class = BookForm
     def get(self, request, pk_key):

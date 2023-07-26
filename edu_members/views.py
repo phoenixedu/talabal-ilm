@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic import View,ListView,DetailView
-from edu.models import xEduInstitution
+from edu.models import xEduInstitution,userEdu
 from django.http import FileResponse,HttpResponse
 from django.conf import settings
 from django.conf.urls.static import static
-from .models import jobCvForm,studentAdmitForm,EduMember,eduStudents,eduFaculty
+from .models import jobCvForm,studentAdmitForm,eduStudents,eduFaculty
 from .forms import JobAppliCvForm,StudenAddmissionPanddingForm
 from edu_recruiter.models import AdmissionFrom,jobRecruitry
 from blogs_post.models import DefaltBlogPost
@@ -103,6 +103,10 @@ class viewStudentApplication(ListView):
         if status == 'Approved':
             instance = eduStudents(edu=edu, dataForm=student,user=student.userS)
             instance.save()
+            try:
+                userEdu.objects.get_or_create(edu=edu,user=student.userS,study_at=True)
+            except:
+                pass
             return redirect('LOA',  pk_key)
         else:
             return redirect('LOA',  pk_key)
@@ -134,6 +138,10 @@ class viewEmpolyCv(ListView):
                     title = instance.user,
                     content= f'About {instance.user}',
                 )
+                try:
+                    userEdu.objects.get_or_create(edu=edu,user=employees.userS,work_at=True)
+                except:
+                    pass
             except:
                 pass
             return redirect('CVs',  pk_key)

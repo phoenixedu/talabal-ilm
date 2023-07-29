@@ -50,7 +50,7 @@ class GroupOfStudents(models.Model):
         default="Student Group"
         )
     members = models.ManyToManyField(eduStudents, blank=True,related_name="student_of_edu")
-    capacity = models.IntegerField(default=20)
+    capacity = models.IntegerField(default=120)
     last_update = models.DateTimeField(auto_now=True)
     is_full = models.BooleanField(default=False)
     

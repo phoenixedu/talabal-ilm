@@ -1,23 +1,42 @@
 {% extends 'base.html' %}
-{% block title %}Edit Blogs{% endblock title %}
+{% block title %}Update Edu Profile{% endblock title %}
 {% block fluid_contx %}
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-9">
-            <form method="post" class="txt-clr" enctype="multipart/form-data">
+
+<div class="container bg-fst ">
+
+    <div class="row ">
+        <div class="col-md-8 p-4 txt-clr ">
+            <h3>Write a Blog:</h3>
+            <hr class="bg-light">
+            <form action="" method="POST" enctype="multipart/form-data"> 
                 {% csrf_token %}
-                {{ form.errors }}
-                {{ form.media }}
-                {{ form.as_p}}
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.title.errors }}
+                            <label for="{{ form.title.id_for_label }}" class="form-label">Title</label><br>
+                            <input type="text" class="form-control" id="title"  name="title" value="{{ form.title.value }}">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.content.errors }}
+                            <label for="{{ form.content.id_for_label }}" class="form-label">Content</label><br>
+                            <textarea  class="form-control" id=" content " rows="18" name="content">{{ form.content.value }}</textarea >
+                        </div>
+                    </div>
+                    <!--main-row-end-->
+                </div>
+        
+        
+                <button class="w-100 mt-4 btn btn-danger btn-lg" type="submit">Save</button>
             </form>
         </div>
+        <!--main-row-end-->
     </div>
-</div>
 
-
-
+</div> 
 
 {% endblock fluid_contx %}
 

@@ -41,7 +41,7 @@
                     <div class="bg-snd p-3">
                         {% if Defaltpost %}
                         <h4>{{Defaltpost.title}}</h4>
-                        {{Defaltpost.content|safe}}
+                        {{Defaltpost.content|safe|linebreaksbr}}
                         <hr class="bg-fst">
                         <a href="{% url 'defaultPost' Defaltpost.pk Defaltpost.key %}" target="_blank" ><button class="btn btn-danger  mb-1">Update</button></a>
                         {% endif %}

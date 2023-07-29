@@ -7,7 +7,7 @@
             <div class="bg-snd p-2">
                 <h3>{{blog.title}}</h3>
                 <hr class="bg-fst">
-                {{blog.content|safe}}<br>
+                {{blog.content|safe|linebreaksbr}}<br>
                 <hr class="bg-fst">
                 {% if request.user == student.user and not student.ex_Student %}
                 <a href="{% url 'defaultPost' blog.pk blog.key %}" target="_blank" ><button class="btn btn-danger  mb-1">Update</button></a>

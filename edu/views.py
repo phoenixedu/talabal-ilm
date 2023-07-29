@@ -9,6 +9,7 @@ from blogs_post.models import DefaltBlogPost
 from edu_permissions.models import HeadOfInstetude
 from edu_members.models import eduFaculty 
 
+# view functions
 class createInstetude(View):
     template_name = 'edu/eduForm.html'
     form_class = xEduInstitutionForm
@@ -24,6 +25,7 @@ class createInstetude(View):
             instance = form.save(commit=False)
             instance.OwnerOfX = request.user
             instance.save()
+            user = instance.OwnerOfX
             try:
                 DefaltBlogPost.objects.create(
                     key = instance.pk_key,
@@ -33,9 +35,12 @@ class createInstetude(View):
                 user = instance.OwnerOfX
                 head= HeadOfInstetude.objects.create(edu=instance)
                 head.members.add(user)
-                fty_edu,_ = eduFaculty.objects.get_or_create(edu=instance,user=user,equiet=True)
                 try:
-                    userEdu.objects.get_or_create(user=user,edu=instance,work_at=True)
+                    get,create = eduFaculty.objects.get_or_create(edu=instance,user=user,equiet=True)
+                except:
+                    pass
+                try:
+                    get,create =userEdu.objects.get_or_create(user=user,edu=instance,work_at=True)
                 except:
                     pass
             except:

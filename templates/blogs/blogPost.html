@@ -22,7 +22,7 @@
                 <div class="card-body">
                     <h2 class="card-title">{{ blogP.title }}</h2>
                     <hr class="main-bg">
-                    {{ blogP.content|safe }}
+                    {{ blogP.content|safe|linebreaks }}
                 </div>
                 <div class="card-footer text-muted">
                     <p>

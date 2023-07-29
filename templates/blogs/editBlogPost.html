@@ -2,20 +2,80 @@
 {% block title %}Edit Blogs{% endblock title %}
 {% block fluid_contx %}
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-9">
-            <form method="post" class="txt-clr" enctype="multipart/form-data">
+
+<div class="container bg-fst ">
+
+    <div class="row ">
+        <div class="col-md-8 p-4 txt-clr ">
+            <h3>Write a Blog:</h3>
+            <hr class="bg-light">
+            <form action="" method="POST" enctype="multipart/form-data"> 
                 {% csrf_token %}
-                {{ form.errors }}
-                {{ form.media }}
-                {{ form.as_p}}
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.title.errors }}
+                            <label for="{{ form.title.id_for_label }}" class="form-label">Title</label><br>
+                            <input type="text" class="form-control" id="title"  name="title" value="{{ form.title.value }}">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.content.errors }}
+                            <label for="{{ form.content.id_for_label }}" class="form-label">Content</label><br>
+                            <textarea  class="form-control" id=" content " rows="18" name="content">{{ form.content.value }}</textarea >
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.meta_description.errors }}
+                            <label for="{{ form.meta_description.id_for_label }}" class="form-label">Meta Description</label><br>
+                            <textarea  class="form-control" id=" meta_description " rows="3" name="meta_description">{{ form.meta_description.value }}</textarea >
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="fieldWrapper">
+                            {{ form.meta_keywords.errors }}
+                            <label for="{{ form.meta_keywords.id_for_label }}" class="form-label">Meta Keywords</label><br>
+                            <textarea  class="form-control" id=" meta_keywords " rows="1" name="meta_keywords">{{ form.meta_keywords.value }}</textarea >
+                        </div>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <div class="fieldWrapper">
+                            {{ form.featured_image.errors }}
+                            <label for="{{ form.featured_image.id_for_label }}" class="form-label">Image</label><br>
+                            {% if blog.featured_image %}
+                            <img src="{{ blog.featured_image.value.url }}" alt="Current featured_image" class="fluid-img img-fm" >
+                            {% endif %}
+                            <input type="file" class="form-control" id="{{ form.featured_image.id_for_label }}" name="{{ form.featured_image.html_name }}">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            {{ form.is_publish.errors }}
+                            <input type="checkbox" class="form-check-input" id="{{ form.is_publish.id_for_label }}" name="{{ form.is_publish.name }}" {% if form.is_publish.value %}checked{% endif %}>
+                            <label class="form-check-label" for="{{ form.is_publish.id_for_label }}">Check to Publish</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            {{ form.is_public.errors }}
+                            <input type="checkbox" class="form-check-input" id="{{ form.is_public.id_for_label }}" name="{{ form.is_public.name }}" {% if form.is_public.value %}checked{% endif %}>
+                            <label class="form-check-label" for="{{ form.is_public.id_for_label }}">Check For Public Or Private</label>
+                        </div>
+                    </div>
+                    <!--main-row-end-->
+                </div>
+        
+        
+                <button class="w-100 mt-4 btn btn-danger btn-lg" type="submit">Save</button>
             </form>
         </div>
+        <!--main-row-end-->
     </div>
-</div>
 
+</div> 
 
 
 

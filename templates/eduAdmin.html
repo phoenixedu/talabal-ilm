@@ -136,8 +136,8 @@
                                 <a href="{% url 'admissionD' edu.pk_key formAD.pk formAD.name %}"><button class="btn btn-danger btn-sm">View</button></a>
                             </div>
                             <div class="float-right">
-                                <a><button class="btn btn-danger btn-sm">Apply</button></a>
-                            </div>
+                                <a href="{% url 'studentAdmit' edu.pk_key formAD.pk  %}"><button class="btn btn-danger btn-sm">Apply</button></a>
+                            </div> 
                             <br>
                         </div>
                     </div>
@@ -169,7 +169,7 @@
                                 <a href="{% url 'jobd' edu.pk_key cv.pk cv.name %}"><button class="btn btn-danger btn-sm">View</button></a>
                             </div>
                             <div class="float-right">
-                                <a><button class="btn btn-danger btn-sm">Apply</button></a>
+                                <a href="{% url 'empolyForm' edu.pk_key cv.pk %}"><button class="btn btn-danger btn-sm">Apply</button></a>
                             </div>
                             <br>
                         </div>
@@ -184,91 +184,97 @@
         <div class="p-2">
         <!--class-table-1st-->
         {% if class_list %}
-        <table class="table bg-snd txt-clr">
-            <thead class="cs-card">
-              <tr>
-                <th>Name</th>
-                <th>Course</th>
-                <th>Semester</th>
-                <th>Department</th>
-                <th>Location</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for class in class_list %}
-                <tr>
-                  <td>{{ class.name }}</td>
-                  <td>{{ class.course }}</td>
-                  <td>{{ class.semister }}</td>
-                  <td>{{ class.department }}</td>
-                  <td>{{ class.location }}</td>
-                  <td>
-                    <a href="#">
-                        <button class="btn main-bg btn-sm">View</button>
-                    </a>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table bg-snd txt-clr">
+                <thead class="cs-card">
+                  <tr>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Semester</th>
+                    <th>Department</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for class in class_list %}
+                    <tr>
+                      <td>{{ class.name }}</td>
+                      <td>{{ class.course }}</td>
+                      <td>{{ class.semister }}</td>
+                      <td>{{ class.department }}</td>
+                      <td>{{ class.location }}</td>
+                      <td>
+                        <a href="#">
+                            <button class="btn main-bg btn-sm">View</button>
+                        </a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
         {% endif %}
         <!--Department-table-2nd-->
         <div class="row">
             <!--department-->
             {% if dept_list %}
             <div class="col-md-5">
-                <table class="table bg-snd txt-clr">
-                    <thead class="cs-card">
-                        <tr>
-                          <th>Name</th>
-                          <th>Location</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for dept in dept_list %}
-                          <tr>
-                            <td>{{ dept.name }}</td>
-                            <td>{{ dept.location }}</td>
-                            <td>
-                              <a href="#">
-                                  <button class="btn main-bg btn-sm">View</button>
-                              </a>
-                            </td>
-                          </tr>
-                        {% endfor %}
-                      </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table bg-snd txt-clr">
+                        <thead class="cs-card">
+                            <tr>
+                              <th>Name</th>
+                              <th>Location</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for dept in dept_list %}
+                              <tr>
+                                <td>{{ dept.name }}</td>
+                                <td>{{ dept.location }}</td>
+                                <td>
+                                  <a href="#">
+                                      <button class="btn main-bg btn-sm">View</button>
+                                  </a>
+                                </td>
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                    </table>
+                </div>
             </div>
             {% endif %}
             <!--lab-list-->
             {% if labs_list %}
             <div class="col-md-7">
-                <table class="table bg-snd txt-clr">
-                    <thead class="cs-card">
-                        <tr>
-                            <th>Lab</th>
-                            <th>Department</th>
-                            <th>Location</th>
-                            <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for lab in labs_list %}
-                        <tr>
-                            <td>{{ lab.name }}</td>
-                            <td>{{ lab.department }}</td>
-                            <td>{{ lab.location }}</td>
-                            <td>
-                              <a href="#">
-                                  <button class="btn main-bg btn-sm">View</button>
-                              </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table bg-snd txt-clr">
+                        <thead class="cs-card">
+                            <tr>
+                                <th>Lab</th>
+                                <th>Department</th>
+                                <th>Location</th>
+                                <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for lab in labs_list %}
+                            <tr>
+                                <td>{{ lab.name }}</td>
+                                <td>{{ lab.department }}</td>
+                                <td>{{ lab.location }}</td>
+                                <td>
+                                  <a href="#">
+                                      <button class="btn main-bg btn-sm">View</button>
+                                  </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                    </table>
+                </div>
             </div>
             {% endif %}
             

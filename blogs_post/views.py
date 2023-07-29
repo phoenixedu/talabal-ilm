@@ -1,6 +1,4 @@
-from typing import Any
-from django.http import HttpRequest, HttpResponse
-from .forms import BlogPostForm,DefaltBlogPostForm
+from .forms import BlogPostForm,DefaltBlogPostForm,BlogPostEditForm
 from .models import BlogPost,Comment,DefaltBlogPost
 from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic import View,DetailView,ListView,UpdateView,DeleteView
@@ -75,7 +73,7 @@ class allBlogsList(ListView):
 
 class updateBlogPost(UpdateView):
     model = BlogPost
-    form_class = BlogPostForm
+    form_class = BlogPostEditForm
     template_name = "blogs/editBlogPost.html"
     context_object_name = "blog"
 

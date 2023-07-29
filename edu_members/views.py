@@ -8,6 +8,7 @@ from .models import jobCvForm,studentAdmitForm,eduStudents,eduFaculty
 from .forms import JobAppliCvForm,StudenAddmissionPanddingForm
 from edu_recruiter.models import AdmissionFrom,jobRecruitry
 from blogs_post.models import DefaltBlogPost
+from edu_permissions.models import GroupOfStudents
 import os
 
 
@@ -105,6 +106,9 @@ class viewStudentApplication(ListView):
             instance.save()
             try:
                 userEdu.objects.get_or_create(edu=edu,user=student.userS,study_at=True)
+                edugrp_std,_ = GroupOfStudents.objects.get_or_create(edu=edu)
+                if edugrp_std.is_full == False:
+                    edugrp_std.members.add(instance)
             except:
                 pass
             return redirect('LOA',  pk_key)

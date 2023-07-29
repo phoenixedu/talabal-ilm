@@ -8,7 +8,7 @@
         <div class="cs-card mb-4">
             <div class="bg-snd p-2">
                 {% if blog.featured_image %}
-                <img src="{{MEDIA_URL}}{{ blogP.featured_image.url }}" class="card-img-top" alt="Featured Image">
+                <img src="{{MEDIA_URL}}{{ blog.featured_image.url }}" class="card-img-top" alt="Blog Image">
                 {% endif %}
                 <h6>{{blog.title}}</h6>
                 <p>Author: {{blog.author}}</p>

@@ -151,7 +151,7 @@ class createElecture(View):
 
 class eLactureDatile(DetailView):
     model = Electure
-    template_name = "onLine_class\lectureD.html"
+    template_name = "onLine_class/lectureD.html"
     context_object_name = "leacture"
 
     def get(self,request,pk_key,cls_key,pk,name):

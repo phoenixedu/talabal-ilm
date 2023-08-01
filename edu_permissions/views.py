@@ -3,7 +3,9 @@ from django.views.generic import View,ListView
 from .models import HeadOfTheDepartment, GroupOfAdmins, GroupOfSubHeadOfInstetude, GroupOfStudents, GroupOfTeachers, InchargeOfClass, HeadOfInstetude
 from edu.models import xEduInstitution
 from edu_members.models import eduFaculty
+from django.contrib import messages
 # Create your views here.
+
 class AllGroupsView(View):
     template_name = "groups/allGroups.html"
 
@@ -15,7 +17,7 @@ class AllGroupsView(View):
         class_incharge = InchargeOfClass.objects.filter(edu=edu)
         sub_head_edu,_ = GroupOfSubHeadOfInstetude.objects.get_or_create(edu=edu)
         head_edu,_ = HeadOfInstetude.objects.get_or_create(edu=edu)
-
+        
         context = {
             'teach_group': teachGp,
             'adm_group': admin_group,
@@ -42,29 +44,78 @@ class AllGroupsView(View):
             try:
                 if action == "rm_teacher":
                     teachGp.members.remove(memberID)
+                    teachGp.save()
                 elif action == "rm_admin":
                     admin_group.members.remove(memberID)
+                    admin_group.save()
                 elif action == "rm_sub_head":
                     sub_head_edu.members.remove(memberID)
+                    sub_head_edu.save()
                 elif action == "rm_head":
                     head_edu.members.remove(memberID)
+                    head_edu.save()
                 elif action == "rm_hod":
                     for i in head_dpt:
-                        if i.department == sub:
+                        if i.department.id == int(sub):
                             i.members.remove(memberID)
+                            i.save()
                 elif action == "rm_cls":
                     for i in class_incharge:
-                        if i.Eclass == sub:
+                        if i.Eclass.id == int(sub):
                             i.members.remove(memberID)
+                            i.save()
                 return redirect(request.path)
             except Exception as e:
-                print(f"Error: {e}")
+                messages.error(request, f"Error: {e}")
                 pass
-        else:
-            print('not work')
-        
         contx ={
             'edu':edu,
+        }
+        return render(request,self.template_name,contx)
+
+class listForHOD(ListView):
+    model = eduFaculty
+    template_name = "groups/addlist.html"
+    context_object_name = "add_list"
+    def get(self,request,name,pk_key):
+        edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
+        group = get_object_or_404(HeadOfTheDepartment,name=name,edu=edu)
+        users = eduFaculty.objects.filter(
+            edu=edu,
+            ex_Faculty=False,
+            disable=False,
+            suspend=False,
+        )
+        members = group.members.all()
+        contx ={
+            'edu':edu,
+            'group':group,
+            'members':members,
+            self.context_object_name:users,
+
+        }
+        return render(request,self.template_name,contx)
+    def post(self,request,name,pk_key):
+        edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
+        group = get_object_or_404(HeadOfTheDepartment,name=name,edu=edu)
+        users = eduFaculty.objects.filter(
+            edu=edu,
+            ex_Faculty=False,
+            disable=False,
+            suspend=False,
+        )
+        memberID = request.POST.get('member_id')
+        action = request.POST.get('action')
+        if action == "add":
+            group.members.add(memberID)
+            group.save()
+            dpt = group.department
+            return redirect('departmentD' , pk_key=pk_key, name=dpt.name,pk=dpt.pk)
+        contx ={
+            'edu':edu,
+            'group':group,
+            self.context_object_name:users,
+
         }
         return render(request,self.template_name,contx)
 
@@ -102,7 +153,7 @@ class addListOfFlty(ListView):
                             raise ValueError("Invalid group name!")
 
         except Exception as e:
-            print(f"error: {e}")
+            messages.error(request, f"Error: {e}")
             pass
         contx ={
             self.group: group,
@@ -141,11 +192,11 @@ class addListOfFlty(ListView):
                         except HeadOfInstetude.DoesNotExist:
                             raise ValueError("Invalid group name!")
         except Exception as e:
-            print(f"error: {e}")
+            messages.error(request, f"Error: {e}")
             pass
         if action == "add":
             group.members.add(memberID)
-            print(f"member {memberID} is added to {group.name}")
+            group.save()
         contx ={
             self.group: group,
             self.members : members,

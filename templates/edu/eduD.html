@@ -120,37 +120,3 @@
 </div>
 
 {% endblock fluid_contx %}
-
-{% comment %} {% for course in course_list %}
-                        <div class="col-md-6">
-                            <div class="cs-card">
-                                <div class="card-body bg-snd">
-                                    <h5 class="card-title">{{course}}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">{{course.duration}}</h6>
-                                    {{course.descripition|safe|truncatewords:20}}
-                                    <div class="row card-body bg-snd"> 
-                                        <div class="col-12 p-0">
-                                            <span class="float-left">
-                                                <p class="card-subtitle ">Simsters:</p>
-                                            </span>
-                                            <span class="float-right">
-                                                <p  class="card-subtitle ">{{course.totalSimsters}}</p>
-                                            </span>
-                                        </div><hr>
-                                        <div class="col-12 p-0">
-                                            <span class="float-left ">
-                                                <h6 class="card-subtitle ">Total Fee:</h6>
-                                            </span>
-                                            <span class="float-right">
-                                                <h6 class="card-subtitle ">{{course.totalfee}}</h6>
-                                            </span>
-                                        </div>
-                                    </div><hr>
-                                </div><!--cup-->
-                                <div class="col-12 p-0">
-                                    <a href="{% url 'courseD' edu.pk_key course.name %}" class="btn btn-danger w-100">More</a>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %} {% endcomment %}

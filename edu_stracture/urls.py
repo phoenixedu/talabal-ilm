@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static 
-from .views import creatDept,creatClass,creatLab,creatRole,createSociety,eduAdmin
+from .views import creatDept,creatClass,creatLab,creatRole,createSociety,eduAdmin,eduDeptView,eduClassDeView
 
 urlpatterns = [
     path('admin/',eduAdmin.as_view(),name='eduAdmin'),
@@ -10,6 +10,8 @@ urlpatterns = [
     path('create-lab',creatLab.as_view(),name='createlab'),
     path('add-role',creatRole.as_view(),name='addRole'),
     path('create-society',createSociety.as_view(),name='createSociety'),
+    path('department/<str:name>/<int:pk>',eduDeptView.as_view(),name='departmentD'),
+    path('e-class/<str:name>/<int:pk>',eduClassDeView.as_view(),name='e_classD'),
 
 ]
 

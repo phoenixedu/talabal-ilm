@@ -27,7 +27,7 @@ def upload_path(instance, filename):
     return os.path.join('videos/electure', filename)
 
 class ClassOfStudents(models.Model):
-    Eclass = models.ForeignKey(eduClass, on_delete=models.CASCADE)
+    Eclass = models.ForeignKey(eduClass, on_delete=models.CASCADE,related_name="online_class_edu_class")
     name = models.CharField(default="A",max_length=50)
     incharge = models.ForeignKey(
         eduFaculty,

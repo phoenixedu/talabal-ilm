@@ -6,15 +6,17 @@
     <div class="row cs-card ">
       <div class="col-md-6 bg-snd card-body ">
         <h2>{{ class_of_students.Eclass }}</h2>
-        <p><strong>Incharge:</strong> {{ class_of_students.incharge.user.get_full_name }}</p>
+        <p><strong>Incharge:</strong>{{ class_of_students.incharge.user.get_full_name }}</p>
         <p><strong>Number of Students:</strong> {{ class_of_students.studentsOfclass.count }}</p>
         <p><strong>Create Date:</strong> {{ class_of_students.createDateTime.date }}</p>
+        <a class="text-light" href="{% url 'list_Lectures' edu.pk_key class_of_students.cls_key %}">List of all Leactures</a><br>
       </div>
       <div class="col-md-6 bg-snd card-body text-right">
         <h2>Admin Function</h2>
         <a class="text-light" href="{% url 'addStudent' edu.pk_key class_of_students.pk class_of_students.name %}">Add Students +</a><br>
         <a class="text-light" href="{% url 'ElectureForm' edu.pk_key class_of_students.pk class_of_students.name %}">Add Lecture +</a><br>
-        <a class="text-light" href="">Add Video +</a><br>
+        <a class="text-light" href="{% url 'classCupDate' edu.pk_key class_of_students.Eclass.name class_of_students.pk %}">Update</a><br>
+        {% comment %} <a class="text-light" href="">Add Video +</a><br> {% endcomment %}
       </div>
     </div>
     <!--today-Leactures-->

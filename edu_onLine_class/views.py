@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from edu.models import xEduInstitution
-from django.views.generic import View,ListView,DetailView
-from .forms import ClassOfStudentsForm,EletureForm,electureNotesForm
+from django.views.generic import View,ListView,DetailView,UpdateView
+from .forms import ClassOfStudentsForm,EletureForm,electureNotesForm,ClassOfStudentsUpdateForm
 from .models import ClassOfStudents,Electure,Attendance,electureNotes
-from edu_members.models import eduStudents
+from edu_members.models import eduStudents,eduFaculty
 from datetime import datetime,date,timedelta
 from django.utils import timezone
+from edu_permissions.models import InchargeOfClass
+from edu_stracture.models import eduClass
 
 class ClassOfStudentsViewForm(View):
     model = ClassOfStudents
@@ -27,11 +29,89 @@ class ClassOfStudentsViewForm(View):
             if form.is_valid():
                 instance = form.save(commit=False)
                 instance.save()
+                try:
+                    user = instance.incharge
+                    cls_incharge,_ =InchargeOfClass.objects.get_or_create(
+                        edu =edu,
+                        department = instance.Eclass.department,
+                        Eclass = instance,
+                    )
+                    cls_incharge.members.add(user)
+                    # cls_incharge.save()
+                except Exception as e:
+                    print(f'error: {e}')
+                    pass
                 return redirect('classCList', pk_key)
             return render(request, self.template_name, {'edu': edu, 'form': form})
         else:
             return redirect('classCList', pk_key)
         
+class UPdateClassOfStudents(UpdateView):
+    model = ClassOfStudents
+    form_class = ClassOfStudentsUpdateForm
+    template_name = "onLine_class/classcdUpdate.html"
+    def get(self,request,pk_key,cls,pk):
+        edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
+        Ecls = get_object_or_404(eduClass,name=cls,edu=edu)
+        cls = get_object_or_404(ClassOfStudents,pk=pk)
+        if request.user == edu.OwnerOfX:
+            form = self.form_class(instance=cls,edu=edu)
+            contx = {
+                    'edu':edu,
+                    'cls':cls,
+                    'form':form,
+                }
+            return render(request,self.template_name,contx)
+        else:
+            return redirect('classCList', pk_key)
+    def post(self,request,pk_key,cls,pk):
+        edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
+        Ecls = get_object_or_404(eduClass,name=cls,edu=edu)
+        cls = get_object_or_404(ClassOfStudents,pk=pk)
+        if request.user == edu.OwnerOfX:
+            form = self.form_class(request.POST,instance=cls,edu=edu)
+            if form.is_valid():
+                instance = form.save()
+                try:
+                    print("start..")
+                    print(f"{instance}; {instance.Eclass.department}; {instance.incharge} ;{edu.id}")
+                    InChargeGrp,_ = InchargeOfClass.objects.get_or_create(
+                        edu=edu,
+                        department=instance.Eclass.department,
+                        Eclass=instance,
+                        )
+                    # user_id = form.cleaned_data['incharge']
+                    # user = eduFaculty.objects.get(id=user_id.id)
+                    # try:
+                    #     InChargeGrp = InchargeOfClass.objects.get(
+                    #     edu=edu,
+                    #     department=cls.Eclass.department,
+                    #     Eclass=cls,
+                    #     )
+                    #     print(f'get {InChargeGrp}')
+                    # except InchargeOfClass.DoesNotExist:
+                    #     InChargeGrp = InchargeOfClass.objects.create(
+                    #     edu=edu,
+                    #     department=cls.Eclass.department,
+                    #     Eclass=cls,
+                    #     )
+                    #     print(f'created {InChargeGrp}')
+                    # cls_incharge.members.add(user)  # Now add the many-to-many relationship
+                    # cls_incharge.save() 
+                except Exception as e:
+                    print(f'error: {e}')
+                    pass
+                return redirect(request.path)
+                # return redirect('classCD', pk_key=pk_key, pk=cls.pk ,name=cls.name )
+            else:
+                contx = {
+                    'edu':edu,
+                    'cls':cls,
+                    'form':form,
+                }
+                return render(request,self.template_name,contx)
+
+
 class ClassOfStudentsListView(ListView):
     model = ClassOfStudents
     template_name = 'onLine_class/listOfClasses.html'

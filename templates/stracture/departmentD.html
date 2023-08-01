@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %} {{dept.name}} | {{edu}} {% endblock title %}
+{% block fluid_contx %}
+
+
+<div class="txt-clr mt-0">
+    <!--edu img-->
+    {% if dept.picture %}
+    <div class="edu-img" >
+        <img src="{{MEDIA_URL}}{{dept.picture.url}} " class="fluid-img">
+    </div>
+    {% elif edu.picture %}
+    <div class="edu-img" >
+        <img src="{{MEDIA_URL}}{{edu.picture.url}} " class="fluid-img">
+    </div>
+    {% endif %}
+    <!--nav-edu-->
+    <nav aria-label="breadcrumb ">
+        <ol class="breadcrumb bg-snd ">
+            <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'eduD' edu.pk_key %}">{{edu}} </a></li>
+            <li class="breadcrumb-item "><a class="text-danger disable" >{{dept}}</a></li>
+        </ol>
+      </nav>
+      <!---edu-cntainer-->
+    <div class="container bg-snd p-3">
+        <h1>{{dept.name}}</h1>
+        <h6>{{edu.name}} </h6>
+        <hr class="tx-bg">
+        <!---first-row-end-->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Head Of {{dept.name}}: 
+                            {% if head %}
+                            {{head.user.get_full_name}}
+                            {% else %}
+                            <a href="{% url 'add_to_hod'  hod.name edu.pk_key %}" target="_blank" class="link text-success">add</a>
+                            {% endif %}
+                        </p>
+                        <p>Location: {{dept.location}}</p>
+                        
+                    </div>
+                </div>
+                <div class="cs-card mb-3">
+                    <div class="bg-snd p-3">
+                        {% if Defaltpost %}
+                        <h4>{{Defaltpost.title}}</h4>
+                        {{Defaltpost.content|safe|linebreaksbr}}
+                        <hr class="bg-fst">
+                        <a href="{% url 'defaultPost' Defaltpost.pk Defaltpost.key %}" target="_blank" ><button class="btn btn-danger  mb-1">Update</button></a>
+                        {% endif %}
+                        </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                {% if hod and head %}
+                <div class="cs-card">
+                    {% if head.user.genuser.picture %}
+                    <img src="{{MEDIA_URL}}{{head.user.genuser.picture.url }}" class="img-fluid rounded" style="width:100%;">
+                    {% endif %}
+                    <div class="bg-snd p-3">
+                        <h4>{{head.user.get_full_name}}</h4>
+                        <p></p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        <!---first-row-end-->
+        </div>
+        <!--Scond-Row-->
+        <div class="row">
+            <!--Classes-->
+            <div class="col-12 p-3 mt-3 m-0 bg-danger">
+                <h4>
+                    <span class="float-left">Classes</span>
+                    {% if request.user == edu.OwnerOfX %}
+                    <span class="float-right">
+                        <a class="txt-clr" href="#">&#x002B;</a>
+                    </span>
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="col-12">
+                s
+            </div>
+        <!--Second-row-end-->
+        </div>
+        <!--main-container-end-->
+    </div>
+</div>
+
+{% endblock fluid_contx %}

@@ -14,7 +14,7 @@
                         <button class="btn btn-info w-100 " type="button" data-toggle="collapse" data-target="#collapse_fst" aria-expanded="true" aria-controls="collapse_fst">
                             <span class="float-left">{{teach_group.name}}</span>
                             <span class="float-right">
-                                <a class="btn btn-danger btn-sm" href="#">Edit</a>
+                                {% comment %} <a class="btn btn-danger btn-sm" href="#">Edit</a> {% endcomment %}
                                 <a class="btn btn-success btn-sm" href="{% url 'add_to_group' teach_group.name edu.pk_key %}" target="_blank">Add</a>
                             </span>
                         </button>
@@ -28,7 +28,8 @@
                             <thead>
                                 <tr>
                                     <!-- Table headers here -->
-                                    <th>User</th>
+                                    <th>Username</th>
+                                    <th>Full Name</th>
                                     <th>
                                         <span class="float-right">Action</span>
                                         
@@ -39,7 +40,8 @@
                             <tbody>
                                 {% for member in teach_group.members.all %}
                                 <tr>
-                                    <td>{{member.user}} | {{member.user.get_full_name}}</td>
+                                    <td>{{member.user}}</td>
+                                    <td>{{member.user.get_full_name}}</td>
                                     <td>
                                         <form class="float-right" method="POST" action="">
                                             {% csrf_token %}
@@ -69,7 +71,7 @@
                         <button class="btn btn-info w-100 " type="button" data-toggle="collapse" data-target="#collapse_snd" aria-expanded="true" aria-controls="collapse_snd">
                             <span class="float-left">{{adm_group.name}}</span>
                             <span class="float-right">
-                                <a class="btn btn-danger btn-sm" href="#">Edit</a>
+                                {% comment %} <a class="btn btn-danger btn-sm" href="#">Edit</a> {% endcomment %}
                                 <a class="btn btn-success btn-sm" href="{% url 'add_to_group'  adm_group.name edu.pk_key %}" target="_blank">Add</a>
                             </span>
                         </button>
@@ -83,7 +85,8 @@
                                 <thead>
                                     <tr>
                                         <!-- Table headers here -->
-                                        <th>User</th>
+                                        <th>Username</th>
+                                        <th>Full Name</th>
                                         <th>
                                             <span class="float-right">Action</span>
                                             
@@ -94,7 +97,8 @@
                                 <tbody>
                                     {% for member in adm_group.members.all %}
                                     <tr>
-                                        <td>{{member.user}} | {{member.user.get_full_name}}</td>
+                                        <td>{{member.user}}</td>
+                                        <td>{{member.user.get_full_name}}</td>
                                         <td>
                                             <form class="float-right" method="POST" action="">
                                                 {% csrf_token %}
@@ -122,7 +126,7 @@
                         <button class="btn btn-info w-100" type="button" data-toggle="collapse" data-target="#collapse_fifth" aria-expanded="true" aria-controls="collapse_fifth">
                             <span class="float-left">Head Of the Department</span>
                             <span class="float-right">
-                                <a class="btn btn-success btn-sm" href="#" target="_blank">Add</a>
+                                {% comment %} <a class="btn btn-success btn-sm" href="#" target="_blank">Add</a> {% endcomment %}
                             </span>
                         </button>
                     </h2>
@@ -135,7 +139,8 @@
                                 <thead>
                                     <tr>
                                         <!-- Table headers here -->
-                                        <th>User</th>
+                                        <th>Username</th>
+                                        <th>Full Name</th>
                                         <th>Department</th>
                                         <th>
                                             <span class="float-right">Action</span>
@@ -148,13 +153,14 @@
                                     {% for dept in dpt_head %}
                                     <tr>
                                         {% for i_head in dept.members.all %}
-                                        <td>{{i_head.user}} | {{i_head.user.get_full_name}}</td>
+                                        <td>{{i_head.user}}</td>
+                                        <td>{{i_head.user.get_full_name}}</td>
                                         <td>{{dept.department.name}}</td>
                                         <td>
                                             <form class="float-right" method="POST" action="">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="member_id" value="{{i_head.id}}">
-                                                <input type="hidden" name="sub" value="{{dept.department}}">
+                                                <input type="hidden" name="sub" value="{{dept.department.id}}">
                                                 <input type="hidden" name="action" value="rm_hod">
                                                 <button class="btn btn-danger btn-sm mb-2">Remove</button>
                                                 <a class="btn btn-success btn-sm mb-2" href="{% url 'eduFacultyP' edu.pk_key i_head.eduID %}" target="_blank">View</a>
@@ -177,9 +183,6 @@
                     <h2 class="mb-0">
                         <button class="btn btn-info w-100" type="button" data-toggle="collapse" data-target="#collapse_sixeth" aria-expanded="true" aria-controls="collapse_sixeth">
                             <span class="float-left">Class Incharge</span>
-                            <span class="float-right">
-                                <a class="btn btn-success btn-sm" href="#" target="_blank">Add</a>
-                            </span>
                         </button>
                     </h2>
                 </div>
@@ -191,7 +194,8 @@
                                 <thead>
                                     <tr>
                                         <!-- Table headers here -->
-                                        <th>User</th>
+                                        <th>Username</th>
+                                        <th>Full Name</th>
                                         <th>Class</th>
                                         <th>Department</th>
                                         <th>
@@ -205,14 +209,15 @@
                                     {% for clsIn in class_incharge %}
                                     <tr>
                                         {% for in_cls in clsIn.members.all %}
-                                        <td>{{in_cls.user}} | {{in_cls.user.get_full_name}}</td>
-                                        <td>{{clsIn.Eclass.name}}</td>
+                                        <td>{{in_cls.user}}</td>
+                                        <td>{{in_cls.user.get_full_name}}</td>
+                                        <td>{{clsIn.Eclass}}</td>
                                         <td>{{clsIn.department.name}}</td>
                                         <td>
                                             <form class="float-right" method="POST" action="">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="member_id" value="{{in_cls.id}}">
-                                                <input type="hidden" name="sub" value="{{clsIn.Eclass}}">
+                                                <input type="hidden" name="sub" value="{{clsIn.Eclass.id}}">
                                                 <input type="hidden" name="action" value="rm_cls">
                                                 <button class="btn btn-danger btn-sm mb-2">Remove</button>
                                                 <a class="btn btn-success btn-sm mb-2" href="{% url 'eduFacultyP' edu.pk_key in_cls.eduID %}" target="_blank">View</a>
@@ -237,7 +242,7 @@
                         <button class="btn btn-info w-100" type="button" data-toggle="collapse" data-target="#collapse_third" aria-expanded="true" aria-controls="collapse_third">
                             <span class="float-left">{{sub_head.name}}</span>
                             <span class="float-right">
-                                <a class="btn btn-danger btn-sm" href="#">Edit</a>
+                                {% comment %} <a class="btn btn-danger btn-sm" href="#">Edit</a> {% endcomment %}
                                 <a class="btn btn-success btn-sm" href="{% url 'add_to_group' sub_head.name edu.pk_key %}" target="_blank">Add</a>
                             </span>
                         </button>
@@ -251,10 +256,10 @@
                                 <thead>
                                     <tr>
                                         <!-- Table headers here -->
-                                        <th>User</th>
+                                        <th>Username</th>
+                                        <th>Full Name</th>
                                         <th>
                                             <span class="float-right">Action</span>
-                                            
                                         </th>
                                         <!-- Add more table headers if needed -->
                                     </tr>
@@ -262,14 +267,15 @@
                                 <tbody>
                                     {% for member in sub_head.members.all %}
                                     <tr>
-                                        <td>{{member.user}} | {{member.user.get_full_name}}</td>
+                                        <td>{{member.user}}</td>
+                                        <td>{{member.user.get_full_name}}</td>
                                         <td>
                                             <form class="float-right" method="POST" action="">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="member_id" value="{{member.id}}">
                                                 <input type="hidden" name="action" value="rm_sub_head">
                                                 <button class="btn btn-danger btn-sm mb-2">Remove</button>
-                                                <a class="btn btn-success btn-sm mb-2" href="{% url 'eduFacultyP' edu.pk_key member.iam_faculty.eduID %}" target="_blank">View</a>
+                                                <a class="btn btn-success btn-sm mb-2" href="{% url 'eduFacultyP' edu.pk_key member.eduID %}" target="_blank">View</a>
                                             </form>
                                         </td>
                                     </tr>
@@ -291,7 +297,7 @@
                         <button class="btn btn-info w-100" type="button" data-toggle="collapse" data-target="#collapse_forth" aria-expanded="true" aria-controls="collapse_forth">
                             <span class="float-left">{{edu_head.name}}</span>
                             <span class="float-right">
-                                <a class="btn btn-danger btn-sm" href="#">Edit</a>
+                                {% comment %} <a class="btn btn-danger btn-sm" href="#">Edit</a> {% endcomment %}
                                 <a class="btn btn-success btn-sm" href="{% url 'add_to_group' edu_head.name edu.pk_key %}" target="_blank">Add</a>
                             </span>
                         </button>
@@ -305,10 +311,10 @@
                                 <thead>
                                     <tr>
                                         <!-- Table headers here -->
-                                        <th>User</th>
+                                        <th>Username</th>
+                                        <th>Full Name</th>
                                         <th>
                                             <span class="float-right">Action</span>
-                                            
                                         </th>
                                         <!-- Add more table headers if needed -->
                                     </tr>
@@ -316,14 +322,15 @@
                                 <tbody>
                                     {% for member in edu_head.members.all %}
                                     <tr>
-                                        <td>{{member}} | {{member.get_full_name}}</td>
+                                        <td>{{member.user}}</td>
+                                        <td>{{member.user.get_full_name}}</td>
                                         <td>
                                             <form class="float-right" method="POST" action="">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="member_id" value="{{member.id}}">
                                                 <input type="hidden" name="action" value="rm_head">
                                                 <button class="btn btn-danger btn-sm mb-2">Remove</button>
-                                                <a class="btn btn-success btn-sm mb-2" href="{% url 'eduFacultyP' edu.pk_key member.iam_faculty.eduID %}" target="_blank">View</a>
+                                                <a class="btn btn-success btn-sm mb-2" href="{% url 'eduFacultyP' edu.pk_key member.eduID %}" target="_blank">View</a>
                                             </form>
                                         </td>
                                     </tr>

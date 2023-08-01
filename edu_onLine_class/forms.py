@@ -15,6 +15,17 @@ class ClassOfStudentsForm(forms.ModelForm):
         model = ClassOfStudents
         fields = ['Eclass','name','incharge']
 
+class ClassOfStudentsUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        edu = kwargs.pop('edu', None)
+        super().__init__(*args, **kwargs)
+
+        if edu:
+            self.fields['incharge'].queryset = eduFaculty.objects.filter(edu=edu)
+    class Meta:
+        model = ClassOfStudents
+        fields = ['name','incharge']
+
 class EletureForm(forms.ModelForm):
     class Meta:
         model = Electure

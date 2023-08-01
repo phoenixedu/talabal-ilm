@@ -205,9 +205,9 @@
                       <td>{{ class.department }}</td>
                       <td>{{ class.location }}</td>
                       <td>
-                        <a href="#">
+                        <a href="{% url 'e_classD' edu.pk_key class.name class.pk %}">
                             <button class="btn main-bg btn-sm">View</button>
-                        </a>
+                        </a> 
                       </td>
                     </tr>
                   {% endfor %}
@@ -235,9 +235,9 @@
                                 <td>{{ dept.name }}</td>
                                 <td>{{ dept.location }}</td>
                                 <td>
-                                  <a href="#">
-                                      <button class="btn main-bg btn-sm">View</button>
-                                  </a>
+                                    <a href="{% url 'departmentD' edu.pk_key dept.name dept.pk %}">
+                                        <button class="btn main-bg btn-sm">View</button>
+                                    </a>
                                 </td>
                               </tr>
                             {% endfor %}

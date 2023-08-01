@@ -4,9 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/icon.svg' %}">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5P1467KKDB"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-5P1467KKDB');
+    </script>
+    {% block meta %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Streamlining School Management with SMS: A Comprehensive Solution. Explore the key features and benefits of School Management Systems (SMS) for modern educational institutions. Create and manage classes, automate attendance, communicate effectively, distribute notes, manage admissions, and assist in job placements.">
+    <meta name="keywords" content="school management, SMS, school management system, educational institutions, attendance management, communication, notes distribution, admission management, job placements, education technology">
+    <meta property="og:title" content="Talab Al-Ilm : School Management Systems (SMS)">
+    <meta property="og:description" content="Explore the key features and benefits of School Management Systems (SMS) for modern educational institutions. Create and manage classes, automate attendance, communicate effectively, distribute notes, manage admissions, and assist in job placements.">
+    <meta property="og:url" content="https://talabal-ilm.com">
+    <meta property="og:site_name" content="Talab Al-Ilm">
+    {% endblock meta %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
     <title>{% block title %}Talab al-ilm{% endblock title %}</title>
     {% block head_files %}
+    <meta name="robots" content="noindex, follow">
     {% endblock head_files %}
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sidebars/">

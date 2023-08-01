@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block contx %}
+<div class="txt-clr cs-card">
+    <h1>List of faculty </h1>
+    <p>Institution: {{edu}}</p>
+    <p>Group: {{group}} </p>
+
+    <div class="table-responsive  bg-snd">
+        <table class="table txt-clr">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone #</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in list %}
+                    {% if member not in members %}
+                    <tr>
+                        <td>{{member.user}} | {{member.user.get_full_name}}</td>
+                        <td>{{ member.user.genuser.PhoneNumber }}</td>
+                        <td>
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                    <input type="hidden" name="member_id" value="{{ member.id }}">
+                                    <input type="hidden" name="action" value="add"> 
+                                    <button class="btn btn-success btn-sm" type="submit">Add</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">Empity List.</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="6">
+                        <a class="text-danger float-left" href="{% url 'allGroups' edu.pk_key  %}"> &larr; Back</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock contx %}

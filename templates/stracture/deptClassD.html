@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %} {{cls.name}} | {{edu}} {% endblock title %}
+{% block fluid_contx %}
+
+
+<div class="txt-clr mt-0">
+      <!---edu-cntainer-->
+    <div class="container bg-snd p-3">
+        <h1>{{cls.name}}</h1>
+        <h6>{{edu.name}} </h6>
+        <hr class="tx-bg">
+        <!---first-row-end-->
+        <div class="row">
+            <div class="col-md-8">
+                <h4>Department: {{cls.department}}</h4>
+                <h5>Course: {{cls.course}}</h5>
+                <p>{{cls.course.descripition|safe|linebreaksbr|truncatewords:20}}</p>
+                <h6>Semester: {{cls.semister.name}}</h6>
+                <p>Location: {{cls.location}}</p>
+                <p>Capacity: {{cls.capacity}}</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        
+                    </div>
+                </div>
+            </div>
+        <!---first-row-end-->
+        </div>
+        <!--Scond-Row-->
+        <div class="row">
+            <!--Classes-->
+            <div class="col-12 p-3 mt-3 m-0 bg-danger">
+                <h4>
+                    <span class="float-left">E-class</span>
+                    {% if request.user == edu.OwnerOfX %}
+                    <span class="float-right">
+                        <a class="txt-clr" href="{% url 'classCForm' edu.pk_key %}">&#x002B;</a>
+                    </span>
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="col-12 p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped bg-snd txt-clr mt-2">
+                      <thead class="">
+                        <tr>
+                            <th>Name</th>
+                            <th>Incharge</th>
+                            <th>Students</th>
+                            <th>Create Date</th>
+                            <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                            {% for class in get_class %}
+                                {% if class %}
+                                <tr>
+                                  <td>{{ class.name }}</td>
+                                  <td>{{ class.incharge.user.get_full_name }}</td>
+                                  <td>{{ class.studentsOfclass.count }}</td>
+                                  <td>{{ class.createDateTime.date }}</td>
+                                  <td>
+                                      <a href="{% url 'classCD' edu.pk_key class.pk class.name %}">
+                                      <button class="btn btn-info btn-sm" >View</button>
+                                      </a>
+                                  </td>
+                              </tr>
+                                {% endif %}
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">No classes found.</td>
+                            </tr>
+                            {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+        <!--Second-row-end-->
+        </div>
+        <!--main-container-end-->
+    </div>
+</div>
+
+{% endblock fluid_contx %}

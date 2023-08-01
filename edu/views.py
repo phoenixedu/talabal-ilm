@@ -33,16 +33,18 @@ class createInstetude(View):
                     content = f'Description for {instance.name}',
                 )
                 user = instance.OwnerOfX
-                head= HeadOfInstetude.objects.create(edu=instance)
-                head.members.add(user)
                 try:
-                    get,create = eduFaculty.objects.get_or_create(edu=instance,user=user,equiet=True)
+                    faculty,_ = eduFaculty.objects.get_or_create(edu=instance,user=user,equiet=True)
+                    head,_= HeadOfInstetude.objects.get_or_create(edu=instance)
+                    head.members.add(faculty)
+                    head.save()
                 except:
                     pass
                 try:
                     get,create =userEdu.objects.get_or_create(user=user,edu=instance,work_at=True)
                 except:
                     pass
+                
             except:
                 pass
             return redirect('home')
@@ -192,8 +194,10 @@ class eduInstUpdate(UpdateView):
             form.save()
             try:
                 user = edu.OwnerOfX
-                head,_ = HeadOfInstetude.objects.get_or_create(edu = edu)
-                head.members.add(user)
+                faculty,_ = eduFaculty.objects.get_or_create(edu=edu,user=user,equiet=True)
+                head,_= HeadOfInstetude.objects.get_or_create(edu=edu)
+                head.members.add(faculty)
+                head.save()
             except:
                 pass
             return redirect('home')

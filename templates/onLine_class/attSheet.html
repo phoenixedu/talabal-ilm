@@ -35,8 +35,8 @@
                                 <tr>
                                     <td>{{ student.user }}</td>
                                     <td>
+                                       {% if perms.edu_members.can_take_edu_attendance %}
                                        <div class="float-right">
-                                            <!-- Actions for absent students -->
                                             <form action="" method="POST" class="d-inline ">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="student_id" value="{{ student.id }}">
@@ -49,7 +49,8 @@
                                                 <input type="hidden" name="action" value="leave"> 
                                                 <button class="btn btn-success btn-sm" type="submit">Leave</button>
                                             </form>
-                                       </div>
+                                        </div>
+                                        {% endif %}
                                     </td>
                                 </tr>
                                 
@@ -84,8 +85,8 @@
                                 <tr>
                                     <td>{{ student.name }}</td>
                                     <td>
+                                        {% if perms.edu_members.can_take_edu_attendance %}
                                         <div class="float-right">
-                                             <!-- Actions for absent students -->
                                              <form action="" method="POST" class="d-inline mb-2">
                                                  {% csrf_token %}
                                                  <input type="hidden" name="student_id" value="{{ student.id }}">
@@ -99,6 +100,7 @@
                                                  <button class="btn btn-success btn-sm" type="submit">Leave</button>
                                              </form>
                                         </div>
+                                        {% endif %}
                                      </td>
                                 </tr>
                                 {% endfor %}
@@ -131,8 +133,8 @@
                                 <tr>
                                     <td>{{ student.name }}</td>
                                     <td>
+                                        {% if perms.edu_members.can_take_edu_attendance %}
                                         <div class="float-right">
-                                             <!-- Actions for absent students -->
                                              <form action="" method="POST" class="d-inline mb-2">
                                                  {% csrf_token %}
                                                  <input type="hidden" name="student_id" value="{{ student.id }}">
@@ -146,6 +148,7 @@
                                                  <button class="btn btn-success btn-sm" type="submit">Absent</button>
                                              </form>
                                         </div>
+                                        {% endif %}
                                      </td>
                                 </tr>
                                 {% endfor %}
@@ -167,103 +170,3 @@
     </div>
 </div>
 {% endblock contx %}
-<!--<table class="table  txt-clr">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    {% comment %} <th>Gardiner</th>
-                    <th>Phone #</th>
-                    <th>Age</th>
-                    <th>Class</th> {% endcomment %}
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for student in cls.studentsOfclass.all %}
-                   {{student.student_att.all}}
-                    <tr>
-                        <td>
-                            {% if student.user.get_full_name %}
-                            {{student.user.get_full_name}}
-                            {% else %}
-                            {{ student }}
-                            {% endif %}
-                        </td>
-                        {% comment %} <td>{{ student.dataForm.nameOfGardiner }}</td>
-                        <td>{{ student.user.genuser.PhoneNumber }}</td>
-                        <td>{{ student.user.genuser.age }}</td>
-                        <td>{{ student.dataForm.educlass }}</td> {% endcomment %}
-                        <td>
-                            <form action="" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                    <input type="hidden" name="student_id" value="{{ student.id }}">
-                                    <input type="hidden" name="action" value="present"> 
-                                    <button class="btn btn-success btn-sm" type="submit">Present</button>
-                            </form>
-                            
-                            <form action="" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                    <input type="hidden" name="student_id" value="{{ student.id }}">
-                                    <input type="hidden" name="action" value="leave"> 
-                                    <button class="btn btn-success btn-sm" type="submit">Leave</button>
-                            </form>
-                            <form action="" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                    <input type="hidden" name="student_id" value="{{ student.id }}">
-                                    <input type="hidden" name="action" value="absent"> 
-                                    <button class="btn btn-success btn-sm" type="submit">Absent</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr class="bg-danger">
-                        <td colspan="6">
-                            Present Student:
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {% if student.user.get_full_name %}
-                            {{student.user.get_full_name}}
-                            {% else %}
-                            {{ student }}
-                            {% endif %}
-                        </td>
-                        <td>{{ student.dataForm.nameOfGardiner }}</td>
-                        <td>{{ student.user.genuser.PhoneNumber }}</td>
-                        <td>{{ student.user.genuser.age }}</td>
-                        <td>{{ student.dataForm.educlass }}</td>
-                        <td>
-                            <form action="" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                    <input type="hidden" name="student_id" value="{{ student.id }}">
-                                    <input type="hidden" name="action" value="present"> 
-                                    <button class="btn btn-success btn-sm" type="submit">Present</button>
-                            </form>
-                            
-                            <form action="" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                    <input type="hidden" name="student_id" value="{{ student.id }}">
-                                    <input type="hidden" name="action" value="leave"> 
-                                    <button class="btn btn-success btn-sm" type="submit">Leave</button>
-                            </form>
-                            <form action="" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                    <input type="hidden" name="student_id" value="{{ student.id }}">
-                                    <input type="hidden" name="action" value="absent"> 
-                                    <button class="btn btn-success btn-sm" type="submit">Absent</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="6">No students found.</td>
-                    </tr>
-                {% endfor %}
-                <tr>
-                    <td colspan="6">
-                        <a class="text-danger float-left" href="{% url 'classCD' edu.pk_key cls.pk cls.name %}"> &larr; Back</a>
-                    </td>
-                </tr>
-            </tbody>
-
-        </table>-->

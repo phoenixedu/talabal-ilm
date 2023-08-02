@@ -36,22 +36,23 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if lecture.cancel %}
-                            <form action="" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                    <input type="hidden" name="lecture_id" value="{{ lecture.id }}">
-                                    <input type="hidden" name="action" value="undo"> 
-                                    <button class="btn btn-danger btn-sm" type="submit">Undo</button>
-                            </form>
-                            {% else %}
-                            <form action="" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                    <input type="hidden" name="lecture_id" value="{{ lecture.id }}">
-                                    <input type="hidden" name="action" value="cancel"> 
-                                    <button class="btn btn-danger btn-sm" type="submit">Cancel</button>
-                            </form>
+                            {% if perms.edu_members.can_edit_edu_models %}
+                                {% if lecture.cancel %}
+                                <form action="" method="POST" class="d-inline">
+                                    {% csrf_token %}
+                                        <input type="hidden" name="lecture_id" value="{{ lecture.id }}">
+                                        <input type="hidden" name="action" value="undo"> 
+                                        <button class="btn btn-danger btn-sm" type="submit">Undo</button>
+                                </form>
+                                {% else %}
+                                <form action="" method="POST" class="d-inline">
+                                    {% csrf_token %}
+                                        <input type="hidden" name="lecture_id" value="{{ lecture.id }}">
+                                        <input type="hidden" name="action" value="cancel"> 
+                                        <button class="btn btn-danger btn-sm" type="submit">Cancel</button>
+                                </form>
+                                {% endif %}
                             {% endif %}
-                            
                             <a href="{% url 'electureD' edu.pk_key cls.cls_key lecture.pk lecture.title %}" class="d-inline">
                                 <button class="btn btn-success btn-sm" >View</button>
                             </a>

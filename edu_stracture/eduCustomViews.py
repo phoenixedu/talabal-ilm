@@ -9,14 +9,14 @@ class EduFormsView(View):
     template_name = None
     def get(self,request,pk_key):
         edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
-        if request.user == edu.OwnerOfX:
+        if request.user.has_perm('edu_members.can_create_edu_models'):
             form = self.form_class()
             return render(request,self.template_name,{'edu':edu,'form':form})
         else:
             return redirect('eduAdmin',pk_key)
     def post(self,request,pk_key):
         edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
-        if request.user == edu.OwnerOfX:
+        if request.user.has_perm('edu_members.can_create_edu_models'):
             form = self.form_class(request.POST,request.FILES)
             if form.is_valid() :
                 instance = form.save(commit=False)
@@ -35,7 +35,7 @@ class EduFilterFormsView(View):
 
     def get(self,request,pk_key):
         edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
-        if request.user == edu.OwnerOfX:
+        if request.user.has_perm('edu_members.can_create_edu_models'):
             form = self.form_class(edu=edu)
             return render(request,self.template_name,{'edu':edu,'form':form})
         else:
@@ -44,7 +44,7 @@ class EduFilterFormsView(View):
         edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
         if self.m2m_field is not None:
             self.m2m_field = self.m2m_field.objects.filter(edu=edu)
-        if request.user == edu.OwnerOfX:
+        if request.user.has_perm('edu_members.can_create_edu_models'):
             form = self.form_class(request.POST,request.FILES,edu=edu)
             if form.is_valid() :
                 instance = form.save(commit=False)

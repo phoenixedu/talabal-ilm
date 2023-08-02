@@ -2,7 +2,22 @@
 {% block head_files %}
     <meta name="robots" content="index, follow">
 {% endblock head_files %}
-{% block contx %}
 
-{% endblock contx %} 
+
+{% block fluid_contx %}
+
+<div class="container txt-clr">
+    <div class="row ">
+        <div class="col-12 cs-card p-1">
+            <div class="card bg-snd">
+                <div class="card-body">
+                    <h1 class="card-title p-2">{{ blog.title }}</h1>
+                    <hr class="main-bg">
+                    {{ blog.content|safe|linebreaks }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock fluid_contx %}
 

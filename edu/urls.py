@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static 
-from .views import xEduInstDetaile,courseDetail,semisterUpdate,InstCourseUdate,eduInstUpdate,create_semister,createBooks,createInstetude,create_InstCourse
+from .views import xEduInstDetaile,courseDetail,semisterUpdate,InstCourseUdate,eduStorageMeter,eduInstUpdate,create_semister,createBooks,createInstetude,create_InstCourse
 
 urlpatterns = [
     path('form/',createInstetude.as_view(),name="createEdu"),
@@ -13,6 +13,7 @@ urlpatterns = [
     path('<str:pk_key>/update/',eduInstUpdate.as_view(),name="eduUpdate"),
     path('<str:pk_key>/update/<str:name>/<int:pk>/',InstCourseUdate.as_view(),name="courseUpdate"),
     path('<str:pk_key>/<str:name>/update_semister/<int:pk>/',semisterUpdate.as_view(),name="semisterUpdate"),
+    path('storage/<pk_key>/',eduStorageMeter.as_view(), name="eduStorage" )
 ]
 
 if settings.DEBUG:

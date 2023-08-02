@@ -18,18 +18,8 @@ class GroupOfTeachers(models.Model):
     capacity = models.IntegerField(default=1)
     last_update = models.DateTimeField(auto_now=True)
     is_full = models.BooleanField(default=False)
-    
-    def save(self, *args, **kwargs):
-        if self.capacity is not None and self.members.count() >= self.capacity:
-            self.is_full = True
-        else:
-            self.is_full = False
-        super().save(*args, **kwargs)
-
     def __str__(self):
         return self.name
-
-
 
 class GroupOfAdmins(models.Model):
     edu = models.ForeignKey(xEduInstitution, on_delete=models.CASCADE, related_name='group_of_admins')
@@ -43,16 +33,8 @@ class GroupOfAdmins(models.Model):
     capacity = models.IntegerField(default=1)
     last_update = models.DateTimeField(auto_now=True)
     is_full = models.BooleanField(default=False)
-
-    def save(self, *args, **kwargs):
-        if self.capacity is not None and self.members.count() >= self.capacity:
-            self.is_full = True
-        else:
-            self.is_full = False
-        super().save(*args, **kwargs)
     def __str__(self):
         return self.name
-
 
 class GroupOfStudents(models.Model):
     edu = models.ForeignKey(xEduInstitution, on_delete=models.CASCADE, related_name='group_of_students')
@@ -66,13 +48,6 @@ class GroupOfStudents(models.Model):
     capacity = models.IntegerField(default=120)
     last_update = models.DateTimeField(auto_now=True)
     is_full = models.BooleanField(default=False)
-    
-    def save(self, *args, **kwargs):
-        if self.capacity is not None and self.members.count() >= self.capacity:
-            self.is_full = True
-        else:
-            self.is_full = False
-        super().save(*args, **kwargs)
     def __str__(self):
         return self.name
     
@@ -89,18 +64,11 @@ class HeadOfTheDepartment(models.Model):
     capacity = models.IntegerField(default=1)
     last_update = models.DateTimeField(auto_now=True)
     is_full = models.BooleanField(default=False)
-   
-    def save(self, *args, **kwargs):
-        if self.capacity is not None and self.members.count() >= self.capacity:
-            self.is_full = True
-        else:
-            self.is_full = False
-        super().save(*args, **kwargs)
     def __str__(self):
         return self.name
     
 class InchargeOfClass(models.Model):
-    # id =  models.AutoField(primary_key=True)
+    id =  models.AutoField(primary_key=True)
     edu = models.ForeignKey(xEduInstitution, on_delete=models.CASCADE,related_name="InchargeOfClassGroup")
     department = models.ForeignKey(eduDepartment, on_delete=models.CASCADE)
     Eclass = models.ForeignKey(ClassOfStudents,on_delete=models.CASCADE,related_name='InchargeOfEclass')
@@ -114,14 +82,6 @@ class InchargeOfClass(models.Model):
     capacity = models.IntegerField(default=1)
     last_update = models.DateTimeField(auto_now=True)
     is_full = models.BooleanField(default=False)
-    
-    
-    def save(self, *args, **kwargs):
-        if self.capacity is not None and self.members.count() >= self.capacity:
-            self.is_full = True
-        else:
-            self.is_full = False
-        super().save(*args, **kwargs)
     def __str__(self):
         return self.name
     
@@ -137,14 +97,6 @@ class HeadOfInstetude(models.Model):
     capacity = models.IntegerField(default=1)
     last_update = models.DateTimeField(auto_now=True)
     is_full = models.BooleanField(default=False)
-    
-    
-    def save(self, *args, **kwargs):
-        if self.capacity is not None and self.members.count() >= self.capacity:
-            self.is_full = True
-        else:
-            self.is_full = False
-        super().save(*args, **kwargs)
     def __str__(self):
         return self.name
     
@@ -160,14 +112,5 @@ class GroupOfSubHeadOfInstetude(models.Model):
     capacity = models.IntegerField(default=0)
     last_update = models.DateTimeField(auto_now=True)
     is_full = models.BooleanField(default=False)
-    
-    
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self.capacity is not None and self.members.count() >= self.capacity:
-            self.is_full = True
-        else:
-            self.is_full = False
-        super().save(*args, **kwargs)
     def __str__(self):
         return self.name

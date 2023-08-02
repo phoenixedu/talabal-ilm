@@ -14,9 +14,11 @@
         <ol class="breadcrumb bg-snd ">
             <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'home' %}">Home</a></li>
             <li class="breadcrumb-item "><a class="text-danger disable" >EDU</a></li>
+            {% if perms.edu_members.can_create_edu_models %}
             <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'eduUpdate' edu.pk_key %}">Edit {{edu.name}} </a></li>
+            {% endif %}
         </ol>
-      </nav>
+    </nav>
       <!---edu-cntainer-->
     <div class="container bg-snd p-3">
         <h1>{{edu}}</h1>
@@ -43,14 +45,16 @@
                         <h4>{{Defaltpost.title}}</h4>
                         {{Defaltpost.content|safe|linebreaksbr}}
                         <hr class="bg-fst">
+                        {% if perms.edu_members.can_create_edu_models %}
                         <a href="{% url 'defaultPost' Defaltpost.pk Defaltpost.key %}" target="_blank" ><button class="btn btn-danger  mb-1">Update</button></a>
+                        {% endif %}
                         {% endif %}
                         </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="cs-card">
-                    {% if edu.OwnerOfX.genuser.picture %}
+                    {% if perms.edu_members.can_create_edu_models %}
                     <img src="{{MEDIA_URL}}{{edu.OwnerOfX.genuser.picture.url }}" alt="{{ genuser.username }}" class="img-fluid rounded" style="width:100%;">
                     {% else %}
                     <img src="http://127.0.0.1:8000/media/images/genUserProfile/mob233-e0573643-8dbb-44e6-839f-0df6825a1b81-9649.jpg" alt="{{ genuser.username }}" class="img-fluid rounded">
@@ -69,7 +73,7 @@
             <div class="col-12 p-3 mt-3 m-0 bg-danger">
                 <h4>
                     <span class="float-left">Course</span>
-                    {% if request.user == edu.OwnerOfX %}
+                    {% if perms.edu_members.can_create_edu_models %}
                     <span class="float-right">
                         <a class="txt-clr" href="{% url 'createcourse' edu.pk_key %}">&#x002B;</a>
                     </span>

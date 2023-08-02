@@ -4,7 +4,7 @@ git push origin master
 git pull origin master
 # to push
 git add .
-git commit -m "name the commet"
+git commit -m "agu 1, 2023; groups added"
 git push
 git pull
 # on server

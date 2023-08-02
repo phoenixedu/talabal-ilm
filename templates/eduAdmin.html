@@ -23,7 +23,7 @@
                         <a class="nav-link" href="{% url 'eduD' edu.pk_key  %}">{{edu}}</a>
                     </li>
                     {% endif %}
-                    {% if edu.OwnerOfX %}
+                    {% if perms.edu_members.can_create_edu_models %}
                     <li class="nav-item">
                         <a class="nav-link " href="{% url 'createcourse' edu.pk_key %}">Create Course +</a>
                     </li>
@@ -51,15 +51,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'jobvacancy' edu.pk_key %}">Job Poster +</a>
                     </li>
+                    {% endif %}
+                    {% if perms.edu_members.can_approve_job_request_edu or perms.edu_members.can_approve_student_request_edu or perms.edu_members.can_view_groups_edu %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'LOA' edu.pk_key %}">List of Student Applications </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'CVs' edu.pk_key %}">List of CVs</a>
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'classCList' edu.pk_key %}">List Of Classes</a>
                     </li>
+                    {% if perms.edu_members.can_view_groups_edu %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'allGroups' edu.pk_key %}">All Groups</a>
                     </li>
@@ -102,10 +106,10 @@
             <div class="col-md-4 mb-2">
                 <div class="card cs-card text-dark">
                     <div class="card-body bg-warning">
-                        <h6>Total Faculty:</h6>
-                        <h1>123</h1>
+                        <h6>Total Storage:</h6>
+                        <h1>10Gb</h1>
                         <p>
-                            <a class="text-dark float-right" href="#">View List</a>
+                            <a class="text-dark float-right" href="{% url 'eduStorage' edu.pk_key %}">View List</a>
                         </p>
                     </div>
                 </div>
@@ -201,7 +205,7 @@
                     <tr>
                       <td>{{ class.name }}</td>
                       <td>{{ class.course }}</td>
-                      <td>{{ class.semister }}</td>
+                      <td>{{ class.semister.name }}</td>
                       <td>{{ class.department }}</td>
                       <td>{{ class.location }}</td>
                       <td>

@@ -105,3 +105,14 @@ class userEdu(models.Model):
 
     def __str__(self):
         return f"{self.user} ({self.edu})"
+
+class eduStorage(models.Model):
+    edu = models.ForeignKey(xEduInstitution,related_name="edu_storage", on_delete=models.CASCADE)
+    totalStorage = models.IntegerField(0)
+    allowStorage = models.IntegerField(10)
+    is_full = models.BooleanField(False)
+    LastMeasure = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.edu}_{self.totalStorage}"
+    

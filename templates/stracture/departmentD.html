@@ -36,7 +36,9 @@
                             {% if head %}
                             {{head.user.get_full_name}}
                             {% else %}
-                            <a href="{% url 'add_to_hod'  hod.name edu.pk_key %}" target="_blank" class="link text-success">add</a>
+                                {% if perms.edu_members.can_change_groups_edu and perms.edu_members.can_edit_edu_lvl2 %}
+                                <a href="{% url 'add_to_hod'  hod.name edu.pk_key %}" target="_blank" class="link text-success">add</a>
+                                {% endif %}
                             {% endif %}
                         </p>
                         <p>Location: {{dept.location}}</p>
@@ -49,7 +51,9 @@
                         <h4>{{Defaltpost.title}}</h4>
                         {{Defaltpost.content|safe|linebreaksbr}}
                         <hr class="bg-fst">
-                        <a href="{% url 'defaultPost' Defaltpost.pk Defaltpost.key %}" target="_blank" ><button class="btn btn-danger  mb-1">Update</button></a>
+                            {% if perms.edu_members.can_create_edu_models or request.user == head.user %}
+                            <a href="{% url 'defaultPost' Defaltpost.pk Defaltpost.key %}" target="_blank" ><button class="btn btn-danger  mb-1">Update</button></a>
+                            {% endif %}
                         {% endif %}
                         </div>
                 </div>
@@ -61,8 +65,8 @@
                     <img src="{{MEDIA_URL}}{{head.user.genuser.picture.url }}" class="img-fluid rounded" style="width:100%;">
                     {% endif %}
                     <div class="bg-snd p-3">
-                        <h4>{{head.user.get_full_name}}</h4>
-                        <p></p>
+                        <h4>HOD: {{head.user.get_full_name}}</h4>
+                        <p><a class="btn btn-success w-100" href="{% url 'eduFacultyP' edu.pk_key head.eduID %}" target="_blank">View</a></p>
                     </div>
                 </div>
                 {% endif %}
@@ -70,23 +74,58 @@
         <!---first-row-end-->
         </div>
         <!--Scond-Row-->
+        {% if perms.edu_members.can_can_view_edu_models %}
         <div class="row">
             <!--Classes-->
             <div class="col-12 p-3 mt-3 m-0 bg-danger">
                 <h4>
                     <span class="float-left">Classes</span>
-                    {% if request.user == edu.OwnerOfX %}
+                    {% if perms.edu_members.can_create_edu_models %}
                     <span class="float-right">
-                        <a class="txt-clr" href="#">&#x002B;</a>
+                        <a class="txt-clr" href="{% url 'createclass' edu.pk_key %}">&#x002B;</a>
                     </span>
                     {% endif %}
                 </h4>
             </div>
-            <div class="col-12">
-                s
+            <div class="col-12 p-0">
+                <br>
+                <!--class-table-1st-->
+                {% if class_list %}
+                <div class="table-responsive">
+                    <table class="table bg-snd txt-clr">
+                        <thead class="">
+                        <tr>
+                            <th>Name</th>
+                            <th>Course</th>
+                            <th>Semester</th>
+                            <th>Department</th>
+                            <th>Location</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for class in class_list %}
+                            <tr>
+                            <td>{{ class.name }}</td>
+                            <td>{{ class.course }}</td>
+                            <td>{{ class.semister.name }}</td>
+                            <td>{{ class.department }}</td>
+                            <td>{{ class.location }}</td>
+                            <td>
+                                <a href="{% url 'e_classD' edu.pk_key class.name class.pk %}">
+                                    <button class="btn main-bg btn-sm">View</button>
+                                </a> 
+                            </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
             </div>
         <!--Second-row-end-->
         </div>
+        {% endif %}
         <!--main-container-end-->
     </div>
 </div>

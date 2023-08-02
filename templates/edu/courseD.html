@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}{{course.name}} | {{edu.name}}{% endblock title %}
 {% block contx %}
-
 <div class="container  ">
     <div class="row">
         <div class="col-12 p-0">
@@ -10,7 +9,9 @@
                     <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'home' %}">Home</a></li>
                     <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'eduD' edu.pk_key %}" >EDU </a></li>
                     <li class="breadcrumb-item "><a class="text-danger disable">Course </a></li>
+                    {% if perms.edu_members.can_edit_edu_models %}
                     <li class="breadcrumb-item "><a class="txt-clr" href="{% url 'courseUpdate' edu.pk_key course.name course.pk %}" >Update {{course.name}} </a></li>
+                    {% endif %}
                 </ol>
               </nav>
         </div>
@@ -23,7 +24,7 @@
             <div class="col-12 p-2 pl-4 bg-danger">
                 <h4>
                     <span class="text-left ">Simsters:</span>
-                    {% if request.user == edu.OwnerOfX and not course.smFull %}
+                    {% if perms.edu_members.can_create_edu_models and not course.smFull %}
                     <span class="float-right">
                         <a class="text-light "  href="{% url 'createsemister' edu.pk_key course.name course.pk %}">&#x002B;</a>
                     </span>
@@ -52,7 +53,7 @@
                                     </ul>
                                     {% endif %}
                                 </div>
-                                {% if request.user == edu.OwnerOfX %}
+                                {% if perms.edu_members.can_edit_edu_models %}
                                 <div class="col-md-6 text-right d-flex flex-column justify-content-end ">
                                     <div >
                                         <h6><a class="text-danger" href="{% url 'semisterUpdate' edu.pk_key course.name semister.pk %}">Update</a></h6>

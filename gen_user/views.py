@@ -15,16 +15,36 @@ from django.http import Http404
 from django.core.exceptions import PermissionDenied,ValidationError,SuspiciousOperation
 # Models from All Apps 
 from edu.models import xEduInstitution,userEdu
+from blogs_post.models import BlogPost
 
-@login_required
-def index(request):
+class index(View):
     template_name = 'index.html'
-    if request.user.is_authenticated:
-        in_edu = userEdu.objects.filter(user=request.user,current=True)
-    contx = {
-        'in_edu' : in_edu
-    }
-    return render(request,template_name,contx)
+    def get(self,request):
+        if request.user.is_authenticated:
+            in_edu = userEdu.objects.filter(user=request.user,current=True)
+            contx = {
+                'in_edu' : in_edu
+            }
+            return render(request,self.template_name,contx)
+        else:
+            uud = "848737d6-2886-43ce-bc99-7469ebfacb2a"
+            blog = BlogPost.objects.get(uuid=uud)
+            form = CustomAuthenticationForm
+            contx ={
+                'blog':blog,
+                'form':form,
+            }
+            return render(request,self.template_name,contx)
+
+# @login_required
+# def index(request):
+#     template_name = 'index.html'
+#     if request.user.is_authenticated:
+#         in_edu = userEdu.objects.filter(user=request.user,current=True)
+#     contx = {
+#         'in_edu' : in_edu
+#     }
+#     return render(request,template_name,contx)
     
 class registerGenUser(View):
     model = GenUser

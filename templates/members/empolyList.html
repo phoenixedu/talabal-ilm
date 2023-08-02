@@ -28,17 +28,21 @@
                     <td>{{ object.userS.genuser.age}}</td>
                     <td>{{ object.Districe }}</td>
                     <td>{{ object.city }}</td>
+                    
                     <td>
                         {% if object.cv %}
                         <a href="{% url 'view_file' edu.pk_key object.cv.url %}" target="_blank">View</a><br>
+                        {% else %}
+                        no cv
                         {% endif %}
                     </td>
                     <td>{{ object.dateOfapplyed.date }}</td>
                     <td>
+                        {% if perms.edu_members.can_approve_job_request_edu %}
                         <input type="hidden" name="employees_id" value="{{ object.id }}">
                         <input type="hidden" name="status" value="Approved">
-                        <!-- Use a submit button instead of separate accept/reject buttons -->
                         <button class="btn btn-success" type="submit">Accept</button>
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>

@@ -1,6 +1,7 @@
 from django.db import models
 from edu_stracture.models import eduClass
 from edu_members.models import eduFaculty,eduStudents
+from edu.models import xEduInstitution
 from django.utils import timezone
 import os 
 import random
@@ -53,6 +54,8 @@ class ClassOfStudents(models.Model):
     
 
 class eClassVideos(models.Model):
+    edu = models.ForeignKey(xEduInstitution,blank=True,null=True,related_name="electure_video_EDU", on_delete=models.CASCADE)
+    Eclass = models.ForeignKey(eduClass,blank=True,null=True,on_delete=models.CASCADE,related_name="Video_for_leacture_Eclass")
     name = models.CharField(max_length=150,null=True,blank=True)
     thumbnail = models.FileField(upload_to=upload_thumbnail,blank=True, null=True)
     video = models.FileField(upload_to=upload_path,blank=True, null=True)

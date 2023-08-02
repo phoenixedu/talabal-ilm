@@ -1,14 +1,13 @@
 from django.shortcuts import render ,redirect
 from django.views.generic import DetailView,UpdateView
 from django.views import View
-from .models import xEduInstitution,InstCourse,Semester,Book,userEdu
+from .models import xEduInstitution,InstCourse,Semester,Book,userEdu,eduStorage
 from django.shortcuts import get_object_or_404
 from .forms import  InstCourseForm, SemesterForm,updateSemester,BookForm,updateCourse,xEduInstitutionForm,updateEDU
 from django.urls import reverse_lazy
 from blogs_post.models import DefaltBlogPost
 from edu_permissions.models import HeadOfInstetude
 from edu_members.models import eduFaculty 
-
 # view functions
 class createInstetude(View):
     template_name = 'edu/eduForm.html'
@@ -55,21 +54,25 @@ class create_InstCourse(View):
     def get(self, request,pk_key):
         edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
         course_list = InstCourse.objects.filter(edu=edu)
-        if  request.user == edu.OwnerOfX:
+        # if  request.user == edu.OwnerOfX:
+        if  request.user.has_perm('edu_members.can_create_edu_models'):
             form = InstCourseForm()
             return render(request, self.template_name ,{'edu':edu ,'course_list':course_list,'form':form})
         else:
             return redirect('eduD',pk_key)
     def post(self,request,pk_key):
         edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
-        if request.user == edu.OwnerOfX:
+        # if request.user == edu.OwnerOfX:
+        if  request.user.has_perm('edu_members.can_create_edu_models'):
             form = InstCourseForm(data=request.POST)
             if form.is_valid:
                 course = form.save(commit=False)
                 course.edu = edu
                 course.save()
                 return redirect('eduD',pk_key)
-        return render(request, self.template_name ,{'edu':edu ,'form':form})
+            return render(request, self.template_name ,{'edu':edu ,'form':form})
+        else:
+            return redirect('eduD',pk_key)
     
 class create_semister(View):
     template_name = 'edu/semisterForm.html'
@@ -77,7 +80,8 @@ class create_semister(View):
         edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
         course = get_object_or_404(InstCourse,name=name,edu=edu,pk=pk)
         course_list = InstCourse.objects.filter(edu=edu)
-        if request.user == edu.OwnerOfX:
+        if  request.user.has_perm('edu_members.can_create_edu_models'):
+        # if request.user == edu.OwnerOfX:
             form = SemesterForm()
             return render(request,self.template_name,{'form':form,'edu':edu,'course':course,'course_list':course_list})
         else :
@@ -85,13 +89,14 @@ class create_semister(View):
     def post(self, request, pk_key,name,pk):
         edu = get_object_or_404(xEduInstitution, pk_key=pk_key)
         course = get_object_or_404(InstCourse,name=name,edu=edu,pk=pk)
-        if request.user == edu.OwnerOfX:
+        # if request.user == edu.OwnerOfX:
+        if  request.user.has_perm('edu_members.can_create_edu_models'):
             form = SemesterForm(request.POST)
             if form.is_valid():
                 semester = form.save(commit=False)
                 semester.course = course
                 semester.save()
-                form.save_m2m()  # Save the Many-to-Many relationships
+                form.save_m2m()
                 return redirect('courseD',pk_key,name,pk)
             else:
                 return render(request, self.template_name, {'form': form})
@@ -140,7 +145,8 @@ class createBooks(View):
     def get(self, request, pk_key):
         edu = get_object_or_404(xEduInstitution, pk_key=pk_key)
         course = InstCourse.objects.filter(edu=edu)
-        if request.user == edu.OwnerOfX:
+        # if request.user == edu.OwnerOfX:
+        if  request.user.has_perm('edu_members.can_create_edu_models'):
             form = self.form_class(edu=edu)
             return render(request, self.template_name, {
                         'form': form,
@@ -153,7 +159,8 @@ class createBooks(View):
     def post(self, request, pk_key):
         edu = get_object_or_404(xEduInstitution, pk_key=pk_key)
         course = InstCourse.objects.filter(edu=edu)
-        if request.user == edu.OwnerOfX:
+        # if request.user == edu.OwnerOfX:
+        if  request.user.has_perm('edu_members.can_create_edu_models'):
             form = self.form_class(request.POST)
             if form.is_valid():
                 book = form.save(commit=False)
@@ -181,7 +188,8 @@ class eduInstUpdate(UpdateView):
         return get_object_or_404(xEduInstitution, pk_key=pk_key)
     def get(self, request, pk_key):
         edu = self.get_object()
-        if request.user == edu.OwnerOfX:
+        # if request.user == edu.OwnerOfX:
+        if  request.user.has_perm('edu_members.can_create_edu_models'):
             form = self.form_class(instance=edu)
             return render(request, self.template_name, {'edu': edu, 'form': form})
         else:
@@ -189,18 +197,19 @@ class eduInstUpdate(UpdateView):
 
     def post(self, request, pk_key):
         edu = self.get_object()
-        form = self.form_class(request.POST, request.FILES, instance=edu)
-        if form.is_valid():
-            form.save()
-            try:
-                user = edu.OwnerOfX
-                faculty,_ = eduFaculty.objects.get_or_create(edu=edu,user=user,equiet=True)
-                head,_= HeadOfInstetude.objects.get_or_create(edu=edu)
-                head.members.add(faculty)
-                head.save()
-            except:
-                pass
-            return redirect('home')
+        if  request.user.has_perm('edu_members.can_create_edu_models'):
+            form = self.form_class(request.POST, request.FILES, instance=edu)
+            if form.is_valid():
+                form.save()
+                try:
+                    user = edu.OwnerOfX
+                    faculty,_ = eduFaculty.objects.get_or_create(edu=edu,user=user,equiet=True)
+                    head,_= HeadOfInstetude.objects.get_or_create(edu=edu)
+                    head.members.add(faculty)
+                    head.save()
+                except:
+                    pass
+                return redirect('home')
         else:
             return redirect('eduD', pk_key)
     
@@ -214,7 +223,8 @@ class InstCourseUdate(UpdateView):
         edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
         course = get_object_or_404(InstCourse,name=name,pk=pk)
         course_list = InstCourse.objects.filter(edu=edu)
-        if request.user == edu.OwnerOfX:
+        # if request.user == edu.OwnerOfX:
+        if  request.user.has_perm('edu_members.can_edit_edu_models'):
             form = self.form_class(instance=course)
             return render(request,self.template_name,{'edu':edu,'course_list':course_list,self.context_object_name:course,'form':form})
         else:
@@ -222,12 +232,14 @@ class InstCourseUdate(UpdateView):
     def post(self,request,pk_key,name,pk):
         edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
         course = get_object_or_404(InstCourse,name=name,pk=pk)
-        form = self.form_class(request.POST,instance=course)
-        if form.is_valid():
-            form.save()
-            return redirect('eduD',pk_key)
-        else:
+        if  request.user.has_perm('edu_members.can_edit_edu_models'):
+            form = self.form_class(request.POST,instance=course)
+            if form.is_valid():
+                form.save()
+                return redirect('eduD',pk_key)
             return render(request,self.template_name,{'edu':edu,self.context_object_name:course,'form':form})
+        else:
+            return redirect('eduD',pk_key)
 
 class semisterUpdate(UpdateView):
     model = Semester
@@ -239,7 +251,7 @@ class semisterUpdate(UpdateView):
         semister = get_object_or_404(Semester,pk=pk)
         course = InstCourse.objects.get(id=semister.course_id,name=name)
         course_list = InstCourse.objects.filter(edu=edu)
-        if request.user == edu.OwnerOfX:
+        if  request.user.has_perm('edu_members.can_edit_edu_models'):
             form = self.form_class(instance=semister)
             return render(request,self.template_name,{
                 'edu':edu,
@@ -254,18 +266,39 @@ class semisterUpdate(UpdateView):
         edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
         semister = get_object_or_404(Semester,pk=pk)
         course = InstCourse.objects.get(id=semister.course_id,name=name)
-        form = self.form_class(request.POST,instance=semister)
-        if form.is_valid():
-            form.save()
-            # form.save_m2m() 
+        
+        if  request.user.has_perm('edu_members.can_edit_edu_models'):
+            form = self.form_class(request.POST,instance=semister)
+            if form.is_valid():
+                form.save()
+                # form.save_m2m() 
+                pkC = course.id
+                return redirect('courseD',pk_key=pk_key,name=name,pk=pkC)
+            else:
+                return render(request,self.template_name,{
+                    'edu':edu,
+                    self.context_object_name:semister,
+                    'course':course,
+                    'form':form})
+        else:
             pkC = course.id
             return redirect('courseD',pk_key=pk_key,name=name,pk=pkC)
-        else:
-            return render(request,self.template_name,{
-                'edu':edu,
-                self.context_object_name:semister,
-                'course':course,
-                'form':form})
         
+class eduStorageMeter(View):
+    model = eduStorage # need to migrate
+    template_name = "edu/sorageMeter.html"
+    object_date = "data"
+
+    def get(self,request,pk_key):
+        edu = get_object_or_404(xEduInstitution,pk_key=pk_key)
+        if  request.user.has_perm('edu_members.can_view_groups_edu'):
+            context = {
+                        'edu': edu,
+            }
+            return render(request, self.template_name, context)
+        else:
+            return redirect('eduD',pk_key=pk_key)
+
+
 
 

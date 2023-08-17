@@ -101,8 +101,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'sfvj6t4wMt6Q2th1heYg',
-        'HOST': 'containers-us-west-100.railway.app',
+        'PASSWORD': '***',
+        'HOST': 'railway.app',
         'PORT': '5656',
     }
 }
@@ -163,8 +163,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'xiinft@gmail.com'
-EMAIL_HOST_PASSWORD = 'dtltoadeoygtbyjz'
+EMAIL_HOST_USER = 'example@me.com'
+EMAIL_HOST_PASSWORD = '***'
 
 # ckeditor:
 # CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -179,10 +179,10 @@ CKEDITOR_CONFIGS = {
 
 
 # AWS S3 configuration
-AWS_ACCESS_KEY_ID = 'AKIA5Q7CJSVVPIL26IEW'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'talabal-ilm'
-AWS_S3_REGION_NAME = 'eu-north-1'
+AWS_ACCESS_KEY_ID = '****'
+AWS_SECRET_ACCESS_KEY = '***'
+AWS_STORAGE_BUCKET_NAME = 'SMS'
+AWS_S3_REGION_NAME = 'xyz'
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 AWS_S3_VERIFY = True
